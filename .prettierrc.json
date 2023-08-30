@@ -3,5 +3,6 @@
   "semi": false,
   "singleQuote": true,
   "jsxSingleQuote": true,
-  "bracketSameLine": false
+  "bracketSameLine": false,
+  "printWidth": 120
 }
