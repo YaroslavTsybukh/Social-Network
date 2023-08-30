@@ -1,35 +1,33 @@
 import React from 'react'
-import {
-    AppstoreOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    ShopOutlined,
-    TeamOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    TrademarkCircleTwoTone,
-} from '@ant-design/icons'
-import type { MenuProps } from 'antd'
-import { Layout as LayoutAnt, Menu, Input, theme } from 'antd'
+import { HomeOutlined, MessageOutlined, BulbOutlined, TrademarkCircleTwoTone, SaveOutlined } from '@ant-design/icons'
+import { Layout as LayoutAnt, Menu, Input, theme, Space, Card, Avatar, Button, Typography, MenuProps } from 'antd'
 
+const { Text } = Typography
 const { Search } = Input
 const { Header, Content, Sider } = LayoutAnt
 
 const items: MenuProps['items'] = [
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    AppstoreOutlined,
-    TeamOutlined,
-    ShopOutlined,
-].map((icon, index) => ({
-    key: String(index + 1),
-    icon: React.createElement(icon),
-    label: `nav ${index + 1}`,
-}))
+    {
+        key: 'home',
+        icon: <HomeOutlined />,
+        label: 'Моя страница',
+    },
+    {
+        key: 'message',
+        icon: <MessageOutlined />,
+        label: 'Мои сообщения',
+    },
+    {
+        key: 'news',
+        icon: <BulbOutlined />,
+        label: 'Новости',
+    },
+    {
+        key: 'saved',
+        icon: <SaveOutlined />,
+        label: 'Новости',
+    },
+]
 
 interface IProps {
     children: string
@@ -40,6 +38,9 @@ export const Layout: React.FC<IProps> = ({ children }) => {
         token: { colorBgContainer },
     } = theme.useToken()
     const onSearch = (value: string) => console.log(value)
+    const handleExit = () => {
+        console.log('exit')
+    }
 
     return (
         <LayoutAnt>
@@ -66,17 +67,39 @@ export const Layout: React.FC<IProps> = ({ children }) => {
             </Header>
             <LayoutAnt hasSider>
                 <Sider
+                    theme='light'
+                    width={300}
                     style={{
                         maxHeight: 'calc(100vh - 88px)',
                         position: 'sticky',
                         left: 0,
                         top: '88px',
                         bottom: 0,
+                        padding: '20px 20px 0 0',
                     }}
                 >
-                    <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']} items={items} />
+                    <Card title='Добро пожаловать' bordered={false} style={{ width: '100%', marginBottom: '30px' }}>
+                        <Space>
+                            <Avatar
+                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
+                                size='large'
+                                gap={4}
+                            >
+                                User
+                            </Avatar>
+                            <Text italic>User name</Text>
+                            <Button
+                                size='small'
+                                style={{ margin: '0 16px', verticalAlign: 'middle' }}
+                                onClick={handleExit}
+                            >
+                                Выйти
+                            </Button>
+                        </Space>
+                    </Card>
+                    <Menu theme='light' mode='inline' defaultSelectedKeys={['4']} items={items} />
                 </Sider>
-                <LayoutAnt style={{ marginLeft: 200 }}>
+                <LayoutAnt style={{ marginLeft: 100 }}>
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                         <div style={{ padding: 24, textAlign: 'center', background: colorBgContainer }}>
                             <p>{children}</p>
