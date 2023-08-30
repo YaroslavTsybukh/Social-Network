@@ -1,12 +1,42 @@
-import React from 'react'
-import { HomeOutlined, MessageOutlined, BulbOutlined, TrademarkCircleTwoTone, SaveOutlined } from '@ant-design/icons'
+import React, { useState } from 'react'
+import {
+    HomeOutlined,
+    MessageOutlined,
+    BulbOutlined,
+    TrademarkCircleTwoTone,
+    SaveOutlined,
+    BulbTwoTone,
+    SaveTwoTone,
+    HomeTwoTone,
+    MessageTwoTone,
+} from '@ant-design/icons'
 import { Layout as LayoutAnt, Menu, Input, theme, Space, Card, Avatar, Button, Typography, MenuProps } from 'antd'
 
 const { Text } = Typography
 const { Search } = Input
 const { Header, Content, Sider } = LayoutAnt
 
-const items: MenuProps['items'] = [
+const menuItems: MenuProps['items'] = [
+    {
+        key: 'home',
+        icon: <HomeTwoTone style={{ fontSize: '28px' }} />,
+        title: '',
+    },
+    {
+        key: 'message',
+        icon: <MessageTwoTone style={{ fontSize: '28px' }} />,
+    },
+    {
+        key: 'news',
+        icon: <BulbTwoTone style={{ fontSize: '28px' }} />,
+    },
+    {
+        key: 'saved',
+        icon: <SaveTwoTone style={{ fontSize: '28px' }} />,
+    },
+]
+
+const sidebarItems: MenuProps['items'] = [
     {
         key: 'home',
         icon: <HomeOutlined />,
@@ -42,6 +72,13 @@ export const Layout: React.FC<IProps> = ({ children }) => {
         console.log('exit')
     }
 
+    const [current, setCurrent] = useState('home')
+
+    const onClick: MenuProps['onClick'] = (e) => {
+        console.log('click ', e)
+        setCurrent(e.key)
+    }
+
     return (
         <LayoutAnt>
             <Header
@@ -56,7 +93,16 @@ export const Layout: React.FC<IProps> = ({ children }) => {
                     justifyContent: 'space-between',
                 }}
             >
-                <TrademarkCircleTwoTone style={{ fontSize: '40px' }} />
+                <TrademarkCircleTwoTone style={{ fontSize: '45px' }} />
+                <nav>
+                    <Menu
+                        mode='horizontal'
+                        selectedKeys={[current]}
+                        onClick={onClick}
+                        className='menu'
+                        items={menuItems}
+                    />
+                </nav>
                 <Search
                     placeholder='input search text'
                     onSearch={onSearch}
@@ -97,7 +143,9 @@ export const Layout: React.FC<IProps> = ({ children }) => {
                             </Button>
                         </Space>
                     </Card>
-                    <Menu theme='light' mode='inline' defaultSelectedKeys={['4']} items={items} />
+                    <nav>
+                        <Menu theme='light' mode='inline' defaultSelectedKeys={['4']} items={sidebarItems} />
+                    </nav>
                 </Sider>
                 <LayoutAnt style={{ marginLeft: 100 }}>
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
