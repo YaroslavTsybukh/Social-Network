@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, Menu, Space, Layout, Typography } from 'antd'
 import { sidebarItems } from './sidebarItems.tsx'
-export const Sidebar = () => {
+export const LeftSidebar = () => {
     const handleExit = () => {
         console.log('exit')
     }
@@ -20,7 +20,12 @@ export const Sidebar = () => {
         >
             <Card title='Добро пожаловать' bordered={false} style={{ width: '100%', marginBottom: '30px' }}>
                 <Space>
-                    <Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} size='large' gap={4}>
+                    <Avatar
+                        shape='square'
+                        style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
+                        size='large'
+                        gap={4}
+                    >
                         User
                     </Avatar>
                     <Typography.Text italic>User name</Typography.Text>
