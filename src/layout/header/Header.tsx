@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TrademarkCircleTwoTone } from '@ant-design/icons'
 import { Menu, Layout, Input, MenuProps } from 'antd'
 import { menuItems } from './menuItems.tsx'
+import { Link } from 'react-router-dom'
 
 export const Header = () => {
     const [current, setCurrent] = useState('home')
@@ -24,7 +25,9 @@ export const Header = () => {
                 justifyContent: 'space-between',
             }}
         >
-            <TrademarkCircleTwoTone style={{ fontSize: '45px' }} />
+            <Link to='/' style={{ display: 'inline-flex' }}>
+                <TrademarkCircleTwoTone style={{ fontSize: '45px' }} />
+            </Link>
             <nav>
                 <Menu mode='horizontal' selectedKeys={[current]} onClick={onClick} className='menu' items={menuItems} />
             </nav>

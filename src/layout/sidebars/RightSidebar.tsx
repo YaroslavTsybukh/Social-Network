@@ -1,4 +1,5 @@
 import { Avatar, Badge, Card, Layout, Space, Typography } from 'antd'
+import { AvatarWithStatus } from '../../components/ui/AvatarWithStatus.tsx'
 
 export const RightSidebar = () => {
     return (
@@ -12,6 +13,7 @@ export const RightSidebar = () => {
                 top: '88px',
                 bottom: 0,
                 padding: '20px 0 0 20px',
+                marginTop: 24,
             }}
         >
             <Card
@@ -21,42 +23,19 @@ export const RightSidebar = () => {
                 bodyStyle={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
             >
                 <Space style={{ cursor: 'pointer' }}>
-                    <Badge dot={true} color='green' offset={[-2, 38]}>
-                        <Avatar
-                            shape='square'
-                            style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                            size='large'
-                            gap={4}
-                        >
-                            User
-                        </Avatar>
-                    </Badge>
+                    <AvatarWithStatus />
                     <Typography.Text italic>User name</Typography.Text>
                 </Space>
                 <Space style={{ cursor: 'pointer' }}>
                     <Badge dot={false}>
-                        <Avatar
-                            shape='square'
-                            style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                            size='large'
-                            gap={4}
-                        >
+                        <Avatar shape='square' style={{ backgroundColor: '#f56a00' }} size='large'>
                             User
                         </Avatar>
                     </Badge>
                     <Typography.Text italic>User name</Typography.Text>
                 </Space>
                 <Space style={{ cursor: 'pointer' }}>
-                    <Badge dot={true} color='green' offset={[-2, 38]}>
-                        <Avatar
-                            shape='square'
-                            style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                            size='large'
-                            gap={4}
-                        >
-                            User
-                        </Avatar>
-                    </Badge>
+                    <AvatarWithStatus />
                     <Typography.Text italic>User name</Typography.Text>
                 </Space>
             </Card>

@@ -10,7 +10,7 @@ interface IProps {
 
 export const Layout: React.FC<IProps> = ({ children }) => {
     return (
-        <LayoutAnt>
+        <LayoutAnt style={{ minHeight: '100vh' }}>
             <Header />
             <LayoutAnt hasSider>
                 <LeftSidebar />

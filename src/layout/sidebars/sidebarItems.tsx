@@ -1,5 +1,6 @@
 import { MenuProps } from 'antd'
 import { HomeOutlined, MailOutlined, NotificationOutlined, SaveOutlined, SmileOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 export const sidebarItems: MenuProps['items'] = [
     {
@@ -15,7 +16,7 @@ export const sidebarItems: MenuProps['items'] = [
     {
         key: 'message',
         icon: <MailOutlined />,
-        label: 'Мои сообщения',
+        label: <Link to='/messages'>Мои сообщения</Link>,
     },
     {
         key: 'news',
