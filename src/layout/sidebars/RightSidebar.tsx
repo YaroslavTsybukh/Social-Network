@@ -22,7 +22,7 @@ export const RightSidebar = () => {
                 bodyStyle={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
             >
                 <Space style={{ cursor: 'pointer' }}>
-                    <Badge dot={true} color='green' offset={[-2, 38]}>
+                    <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
                         <Avatar
                             shape='square'
                             style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
@@ -48,7 +48,7 @@ export const RightSidebar = () => {
                     <Typography.Text italic>User name</Typography.Text>
                 </Space>
                 <Space style={{ cursor: 'pointer' }}>
-                    <Badge dot={true} color='green' offset={[-2, 38]}>
+                    <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
                         <Avatar
                             shape='square'
                             style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}

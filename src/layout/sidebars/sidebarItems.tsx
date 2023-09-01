@@ -16,7 +16,7 @@ export const sidebarItems: MenuProps['items'] = [
     {
         key: 'message',
         icon: <MailOutlined />,
-        label: <Link to='/messages'>'Мои сообщения'</Link>,
+        label: <Link to='/messages'>Мои сообщения</Link>,
     },
     {
         key: 'news',
