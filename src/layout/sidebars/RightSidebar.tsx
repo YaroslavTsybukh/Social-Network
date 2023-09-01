@@ -12,6 +12,7 @@ export const RightSidebar = () => {
                 top: '88px',
                 bottom: 0,
                 padding: '20px 0 0 20px',
+                marginTop: 24,
             }}
         >
             <Card

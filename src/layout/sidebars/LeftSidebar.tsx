@@ -16,6 +16,7 @@ export const LeftSidebar = () => {
                 top: '88px',
                 bottom: 0,
                 padding: '20px 20px 0 0',
+                marginTop: 24,
             }}
         >
             <Card title='Добро пожаловать' bordered={false} style={{ width: '100%', marginBottom: '30px' }}>
