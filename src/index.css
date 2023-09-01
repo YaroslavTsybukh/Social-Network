@@ -3,3 +3,11 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.ant-menu-title-content:empty {
+  display: none;
+}
+
+.menu .ant-menu-item {
+  padding:  0 25px;
+}
