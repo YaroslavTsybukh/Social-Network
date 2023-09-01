@@ -1,6 +1,7 @@
 import { Layout } from '../../layout/Layout.tsx'
-import { Avatar, Badge, Card } from 'antd'
+import { Card } from 'antd'
 import Meta from 'antd/es/card/Meta'
+import { AvatarWithStatus } from '../../components/ui/AvatarWithStatus.tsx'
 
 export const Messages = () => {
     return (
@@ -10,18 +11,7 @@ export const Messages = () => {
                 bodyStyle={{ textAlign: 'left' }}
             >
                 <Meta
-                    avatar={
-                        <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
@@ -34,18 +24,7 @@ export const Messages = () => {
             </Card>
             <Card style={{ width: '100%', marginBottom: '10px', cursor: 'pointer' }} bodyStyle={{ textAlign: 'left' }}>
                 <Meta
-                    avatar={
-                        <Badge dot={false} color='green'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
@@ -58,18 +37,7 @@ export const Messages = () => {
             </Card>
             <Card style={{ width: '100%', marginBottom: '10px', cursor: 'pointer' }} bodyStyle={{ textAlign: 'left' }}>
                 <Meta
-                    avatar={
-                        <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
@@ -85,18 +53,7 @@ export const Messages = () => {
                 bodyStyle={{ textAlign: 'left' }}
             >
                 <Meta
-                    avatar={
-                        <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
@@ -109,18 +66,7 @@ export const Messages = () => {
             </Card>
             <Card style={{ width: '100%', marginBottom: '10px', cursor: 'pointer' }} bodyStyle={{ textAlign: 'left' }}>
                 <Meta
-                    avatar={
-                        <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
@@ -133,18 +79,7 @@ export const Messages = () => {
             </Card>
             <Card style={{ width: '100%', marginBottom: '10px', cursor: 'pointer' }} bodyStyle={{ textAlign: 'left' }}>
                 <Meta
-                    avatar={
-                        <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
@@ -157,18 +92,7 @@ export const Messages = () => {
             </Card>
             <Card style={{ width: '100%', marginBottom: '10px', cursor: 'pointer' }} bodyStyle={{ textAlign: 'left' }}>
                 <Meta
-                    avatar={
-                        <Badge dot={true} color='green' offset={[-2, 38]} status='processing'>
-                            <Avatar
-                                shape='square'
-                                style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}
-                                size='large'
-                                gap={4}
-                            >
-                                User
-                            </Avatar>
-                        </Badge>
-                    }
+                    avatar={<AvatarWithStatus />}
                     title={
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p>Ярослав Цыбух</p>
