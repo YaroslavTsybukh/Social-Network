@@ -14,11 +14,11 @@ export const Layout: React.FC<IProps> = ({ children }) => {
             <Header />
             <LayoutAnt hasSider>
                 <LeftSidebar />
-                <LayoutAnt>
-                    <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                        <div style={{ padding: 24, textAlign: 'center', background: '#ffffff' }}>{children}</div>
-                    </LayoutAnt.Content>
-                </LayoutAnt>
+
+                <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                    <div style={{ textAlign: 'center' }}>{children}</div>
+                </LayoutAnt.Content>
+
                 <RightSidebar />
             </LayoutAnt>
             <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />

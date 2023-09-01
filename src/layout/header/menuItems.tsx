@@ -1,5 +1,5 @@
 import { Badge, MenuProps } from 'antd'
-import { HomeTwoTone, MessageTwoTone, NotificationTwoTone, SaveTwoTone } from '@ant-design/icons'
+import { HomeTwoTone, MailTwoTone, NotificationTwoTone, SaveTwoTone } from '@ant-design/icons'
 
 export const menuItems: MenuProps['items'] = [
     {
@@ -10,7 +10,7 @@ export const menuItems: MenuProps['items'] = [
         key: 'message',
         icon: (
             <Badge count={5} size='small'>
-                <MessageTwoTone style={{ fontSize: '24px' }} />
+                <MailTwoTone style={{ fontSize: '24px' }} />
             </Badge>
         ),
     },

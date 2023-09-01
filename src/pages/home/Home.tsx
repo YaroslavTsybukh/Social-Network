@@ -1,10 +1,11 @@
 import { Layout } from '../../layout/Layout.tsx'
-import { AddPost } from '../../components/AddPost.tsx'
+import { AddPost, Posts } from '../../components'
 
 export const Home = () => {
     return (
         <Layout>
             <AddPost />
+            <Posts />
         </Layout>
     )
 }

@@ -1,5 +1,5 @@
 import { MenuProps } from 'antd'
-import { HomeOutlined, MessageOutlined, NotificationOutlined, SaveOutlined, SmileOutlined } from '@ant-design/icons'
+import { HomeOutlined, MailOutlined, NotificationOutlined, SaveOutlined, SmileOutlined } from '@ant-design/icons'
 
 export const sidebarItems: MenuProps['items'] = [
     {
@@ -14,7 +14,7 @@ export const sidebarItems: MenuProps['items'] = [
     },
     {
         key: 'message',
-        icon: <MessageOutlined />,
+        icon: <MailOutlined />,
         label: 'Мои сообщения',
     },
     {
