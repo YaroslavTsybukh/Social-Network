@@ -15,9 +15,7 @@ export const Layout: React.FC<IProps> = ({ children }) => {
             <LayoutAnt hasSider>
                 <LeftSidebar />
 
-                <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                    <div style={{ textAlign: 'center' }}>{children}</div>
-                </LayoutAnt.Content>
+                <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>{children}</LayoutAnt.Content>
 
                 <RightSidebar />
             </LayoutAnt>

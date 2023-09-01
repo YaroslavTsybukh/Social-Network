@@ -14,21 +14,23 @@ const props: UploadProps = {
 export const AddPost = () => {
     const [form] = Form.useForm()
     return (
-        <Card style={{ marginBottom: 30 }}>
-            <Form form={form} name='validateOnly' layout='vertical' autoComplete='off'>
-                <Form.Item name='name' rules={[{ required: true, message: 'Fill this field , please !' }]}>
-                    <Input placeholder='Что у вас нового?' />
-                </Form.Item>
-                <Form.Item>
-                    <Space size={100}>
-                        <Upload {...props}>
-                            <Button icon={<UploadOutlined />}>Upload</Button>
-                        </Upload>
-                        <SubmitButton form={form} />
-                    </Space>
-                </Form.Item>
-            </Form>
-        </Card>
+        <section>
+            <Card style={{ marginBottom: 30 }}>
+                <Form form={form} name='validateOnly' layout='vertical' autoComplete='off'>
+                    <Form.Item name='name' rules={[{ required: true, message: 'Fill this field , please !' }]}>
+                        <Input placeholder='Что у вас нового?' />
+                    </Form.Item>
+                    <Form.Item>
+                        <Space size={100}>
+                            <Upload {...props}>
+                                <Button icon={<UploadOutlined />}>Upload</Button>
+                            </Upload>
+                            <SubmitButton form={form} />
+                        </Space>
+                    </Form.Item>
+                </Form>
+            </Card>
+        </section>
     )
 }
 

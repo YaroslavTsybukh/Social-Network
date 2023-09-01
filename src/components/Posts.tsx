@@ -1,17 +1,10 @@
-import { Avatar, Card, Divider, Image, Space, Typography } from 'antd'
-import {
-    EditOutlined,
-    EllipsisOutlined,
-    LikeOutlined,
-    MessageOutlined,
-    RetweetOutlined,
-    SettingOutlined,
-} from '@ant-design/icons'
+import { Avatar, Card, Divider, Image, Typography } from 'antd'
+import { LikeOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 import Meta from 'antd/es/card/Meta'
 
 export const Posts = () => {
     return (
-        <>
+        <section>
             <Card
                 style={{ width: '100%', marginBottom: '30px' }}
                 bodyStyle={{ textAlign: 'left' }}
@@ -133,6 +126,6 @@ export const Posts = () => {
                     culpa qui officia deserunt mollit anim id est laborum.
                 </Typography.Paragraph>
             </Card>
-        </>
+        </section>
     )
 }
