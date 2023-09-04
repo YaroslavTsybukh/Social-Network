@@ -1,6 +1,9 @@
 import { Layout } from '../../layout/Layout.tsx'
 import { Button, Input, MessageList } from 'react-chat-elements'
+import { useRef } from 'react'
 export const Message = () => {
+    const ref = useRef(null)
+
     return (
         <Layout>
             <div>
@@ -8,7 +11,7 @@ export const Message = () => {
                     className='message-list'
                     lockable={true}
                     toBottomHeight={'100%'}
-                    referance={{ ref: 'message list' }}
+                    referance={ref}
                     dataSource={[
                         {
                             id: 1,

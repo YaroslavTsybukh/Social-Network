@@ -11,7 +11,7 @@ export const sidebarItems: MenuProps['items'] = [
     {
         key: 'friends',
         icon: <SmileOutlined />,
-        label: 'Мои друзья',
+        label: <Link to='/friends'>Мои друзья</Link>,
     },
     {
         key: 'message',
@@ -21,7 +21,7 @@ export const sidebarItems: MenuProps['items'] = [
     {
         key: 'news',
         icon: <NotificationOutlined />,
-        label: 'Новости',
+        label: <Link to='/'>Новости</Link>,
     },
     {
         key: 'saved',
