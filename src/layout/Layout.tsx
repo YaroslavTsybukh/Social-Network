@@ -11,18 +11,35 @@ interface IProps {
 
 export const Layout: React.FC<IProps> = ({ children }) => {
     const params = useParams()
-    console.log(params)
+
     return (
         <LayoutAnt style={{ minHeight: '100vh' }}>
             <Header />
-            <LayoutAnt hasSider>
-                <LeftSidebar />
 
-                <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>{children}</LayoutAnt.Content>
+            {!params.messageId ? (
+                <>
+                    <LayoutAnt hasSider>
+                        <LeftSidebar />
 
-                {!params.messageId ? <RightSidebar /> : null}
-            </LayoutAnt>
-            <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
+                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                            {children}
+                        </LayoutAnt.Content>
+
+                        <RightSidebar />
+                    </LayoutAnt>
+                    <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
+                </>
+            ) : (
+                <>
+                    <LayoutAnt hasSider>
+                        <LeftSidebar />
+
+                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                            {children}
+                        </LayoutAnt.Content>
+                    </LayoutAnt>
+                </>
+            )}
         </LayoutAnt>
     )
 }

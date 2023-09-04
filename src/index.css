@@ -11,3 +11,11 @@
 .menu .ant-menu-item {
   padding:  0 25px;
 }
+
+.message-list {
+  height: 80vh;
+}
+
+.rce-container-input {
+  margin-top: 10px;
+}
