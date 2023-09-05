@@ -6,7 +6,7 @@ export const sidebarItems: MenuProps['items'] = [
     {
         key: 'home',
         icon: <HomeOutlined />,
-        label: 'Мой профиль',
+        label: <Link to='/profile'>Мой профиль</Link>,
     },
     {
         key: 'friends',

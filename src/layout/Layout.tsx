@@ -12,12 +12,14 @@ interface IProps {
 export const Layout: React.FC<IProps> = ({ children }) => {
     const params = useParams()
     const { pathname } = useLocation()
-
+    console.log(pathname)
     return (
         <LayoutAnt style={{ minHeight: '100vh' }}>
             <Header />
 
-            {!params.messageId && pathname !== '/friends' ? (
+            {/*TODO:`condition rework*/}
+
+            {!params.messageId && pathname !== '/friends' && pathname !== '/profile' ? (
                 <>
                     <LayoutAnt hasSider>
                         <LeftSidebar />
@@ -27,6 +29,15 @@ export const Layout: React.FC<IProps> = ({ children }) => {
                         </LayoutAnt.Content>
 
                         <RightSidebar />
+                    </LayoutAnt>
+                    <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
+                </>
+            ) : pathname == '/profile' ? (
+                <>
+                    <LayoutAnt>
+                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                            {children}
+                        </LayoutAnt.Content>
                     </LayoutAnt>
                     <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
                 </>
