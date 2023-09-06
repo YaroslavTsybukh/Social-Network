@@ -1,7 +1,9 @@
 import { Layout } from '../../layout/Layout.tsx'
 import {
+    Badge,
     Button,
     Card,
+    Col,
     DatePicker,
     Divider,
     Empty,
@@ -9,6 +11,7 @@ import {
     Image,
     Input,
     Modal,
+    Row,
     Space,
     Tabs,
     TabsProps,
@@ -59,6 +62,8 @@ export const Profile = () => {
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo)
     }
+
+    const onSearch = (value: string) => console.log(value)
 
     const infoTabs: TabsProps['items'] = [
         {
@@ -128,7 +133,7 @@ export const Profile = () => {
                                 name='phone'
                                 tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}
                             >
-                                <Input />
+                                <Input type='tel' />
                             </Form.Item>
 
                             <Form.Item wrapperCol={{ span: 24 }}>
@@ -296,7 +301,7 @@ export const Profile = () => {
                                 name='phoneNumber'
                                 tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}
                             >
-                                <Input />
+                                <Input type='tel' />
                             </Form.Item>
 
                             <Form.Item<FieldType>
@@ -304,7 +309,7 @@ export const Profile = () => {
                                 name='email'
                                 tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}
                             >
-                                <Input />
+                                <Input type='email' />
                             </Form.Item>
 
                             <Form.Item<FieldType>
@@ -472,7 +477,175 @@ export const Profile = () => {
             label: 'Друзья',
             children: (
                 <Card>
-                    <p>Content of Tab Pane 3</p>
+                    <Input.Search placeholder='Поиск по друзьям...' onSearch={onSearch} enterButton size='middle' />
+                    <div style={{ marginTop: 50 }}>
+                        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 26 }} style={{ marginBottom: 30 }}>
+                            <Col className='gutter-row' span={6}>
+                                <Badge.Ribbon text='Online' color='green'>
+                                    <Card
+                                        hoverable
+                                        cover={
+                                            <img
+                                                alt='example'
+                                                src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                            />
+                                        }
+                                    >
+                                        <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                    </Card>
+                                </Badge.Ribbon>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 26 }} style={{ marginBottom: 30 }}>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Badge.Ribbon text='Online' color='green'>
+                                    <Card
+                                        hoverable
+                                        cover={
+                                            <img
+                                                alt='example'
+                                                src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                            />
+                                        }
+                                    >
+                                        <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                    </Card>
+                                </Badge.Ribbon>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 26 }} style={{ marginBottom: 30 }}>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='www.instagram.com' />
+                                </Card>
+                            </Col>
+                            <Col className='gutter-row' span={6}>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <img
+                                            alt='example'
+                                            src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+                                        />
+                                    }
+                                >
+                                    <Card.Meta title='Europe Street beat' description='Перейти' />
+                                </Card>
+                            </Col>
+                        </Row>
+                    </div>
                 </Card>
             ),
         },
