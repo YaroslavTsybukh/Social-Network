@@ -10,7 +10,9 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/profile' element={<Profile />} />
+                {['/profile', '/friend/:friendId'].map((path, i) => (
+                    <Route key={i} path={path} element={<Profile />} />
+                ))}
                 <Route path='/messages' element={<Messages />} />
                 <Route path='/message/:messageId' element={<Message />} />
                 <Route path='/friends' element={<Friends />} />

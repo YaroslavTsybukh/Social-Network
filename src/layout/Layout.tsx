@@ -12,14 +12,33 @@ interface IProps {
 export const Layout: React.FC<IProps> = ({ children }) => {
     const params = useParams()
     const { pathname } = useLocation()
-    console.log(pathname)
+    console.log(params)
+
     return (
         <LayoutAnt style={{ minHeight: '100vh' }}>
             <Header />
 
             {/*TODO:`condition rework*/}
 
-            {!params.messageId && pathname !== '/friends' && pathname !== '/profile' ? (
+            {pathname == '/profile' || pathname == '/friend/1' ? (
+                <>
+                    <LayoutAnt>
+                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                            {children}
+                        </LayoutAnt.Content>
+                    </LayoutAnt>
+                    <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
+                </>
+            ) : pathname == '/friends' || pathname == '/message/1' ? (
+                <>
+                    <LayoutAnt hasSider>
+                        <LeftSidebar />
+                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                            {children}
+                        </LayoutAnt.Content>
+                    </LayoutAnt>
+                </>
+            ) : (
                 <>
                     <LayoutAnt hasSider>
                         <LeftSidebar />
@@ -31,24 +50,6 @@ export const Layout: React.FC<IProps> = ({ children }) => {
                         <RightSidebar />
                     </LayoutAnt>
                     <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
-                </>
-            ) : pathname == '/profile' ? (
-                <>
-                    <LayoutAnt>
-                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                            {children}
-                        </LayoutAnt.Content>
-                    </LayoutAnt>
-                    <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
-                </>
-            ) : (
-                <>
-                    <LayoutAnt hasSider>
-                        <LeftSidebar />
-                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                            {children}
-                        </LayoutAnt.Content>
-                    </LayoutAnt>
                 </>
             )}
         </LayoutAnt>
