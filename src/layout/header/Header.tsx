@@ -15,7 +15,7 @@ export const Header = () => {
     return (
         <Layout.Header
             style={{
-                padding: '10px 16px 10px 28px',
+                padding: '10px 16px 10px 16px',
                 background: '#ffffff',
                 position: 'sticky',
                 top: 0,

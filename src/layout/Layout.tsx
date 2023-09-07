@@ -1,8 +1,7 @@
 import React from 'react'
-import { Header, LeftSidebar, RightSidebar } from './index.ts'
+import { Header, WithoutSidebarsLayout, DefaultLayout, WithLeftSidebarLayout } from './index.ts'
 
-import { FormOutlined } from '@ant-design/icons'
-import { Layout as LayoutAnt, FloatButton } from 'antd'
+import { Layout as LayoutAnt } from 'antd'
 import { useLocation, useParams } from 'react-router-dom'
 
 interface IProps {
@@ -12,33 +11,18 @@ interface IProps {
 export const Layout: React.FC<IProps> = ({ children }) => {
     const params = useParams()
     const { pathname } = useLocation()
+    console.log(params)
 
     return (
         <LayoutAnt style={{ minHeight: '100vh' }}>
             <Header />
 
-            {!params.messageId && pathname !== '/friends' ? (
-                <>
-                    <LayoutAnt hasSider>
-                        <LeftSidebar />
-
-                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                            {children}
-                        </LayoutAnt.Content>
-
-                        <RightSidebar />
-                    </LayoutAnt>
-                    <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
-                </>
+            {pathname == '/profile' || pathname == '/friend/1' ? (
+                <WithoutSidebarsLayout childrenInfo={children} />
+            ) : pathname == '/friends' || pathname == '/message/1' ? (
+                <WithLeftSidebarLayout childrenInfo={children} />
             ) : (
-                <>
-                    <LayoutAnt hasSider>
-                        <LeftSidebar />
-                        <LayoutAnt.Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                            {children}
-                        </LayoutAnt.Content>
-                    </LayoutAnt>
-                </>
+                <DefaultLayout childrenInfo={children} />
             )}
         </LayoutAnt>
     )

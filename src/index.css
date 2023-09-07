@@ -19,3 +19,8 @@
 .rce-container-input {
   margin-top: 10px;
 }
+
+
+img[alt='User Avatar'] + .ant-image-mask {
+  border-radius: 50%;
+}
