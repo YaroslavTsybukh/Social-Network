@@ -1,5 +1,6 @@
 import { Badge, Card, Col, Row } from 'antd'
 import { Link } from 'react-router-dom'
+import { ROUTES } from '../routes'
 
 export const FriendsGrid = () => {
     return (
@@ -7,7 +8,7 @@ export const FriendsGrid = () => {
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 26 }} style={{ marginBottom: 30 }}>
                 <Col className='gutter-row' span={6}>
                     <Badge.Ribbon text='Online' color='green'>
-                        <Link to='/friend/1'>
+                        <Link to={`${ROUTES.FRIEND}/1`}>
                             <Card
                                 hoverable
                                 cover={

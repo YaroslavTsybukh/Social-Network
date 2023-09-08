@@ -24,3 +24,7 @@
 img[alt='User Avatar'] + .ant-image-mask {
   border-radius: 50%;
 }
+
+#normal_login .login-form-forgot {
+  float: right;
+}

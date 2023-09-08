@@ -3,9 +3,11 @@ import { TrademarkCircleTwoTone } from '@ant-design/icons'
 import { Menu, Layout, Input, MenuProps } from 'antd'
 import { menuItems } from './menuItems.tsx'
 import { Link } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 export const Header = () => {
     const [current, setCurrent] = useState('home')
+    const auth = false
     const onSearch = (value: string) => console.log(value)
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e)
@@ -25,19 +27,30 @@ export const Header = () => {
                 justifyContent: 'space-between',
             }}
         >
-            <Link to='/' style={{ display: 'inline-flex' }}>
+            <Link to={ROUTES.HOME} style={{ display: 'inline-flex' }}>
                 <TrademarkCircleTwoTone style={{ fontSize: '45px' }} />
             </Link>
-            <nav>
-                <Menu mode='horizontal' selectedKeys={[current]} onClick={onClick} className='menu' items={menuItems} />
-            </nav>
-            <Input.Search
-                placeholder='input search text'
-                onSearch={onSearch}
-                enterButton
-                size='middle'
-                style={{ width: '500px' }}
-            />
+
+            {auth ? (
+                <>
+                    <nav>
+                        <Menu
+                            mode='horizontal'
+                            selectedKeys={[current]}
+                            onClick={onClick}
+                            className='menu'
+                            items={menuItems}
+                        />
+                    </nav>
+                    <Input.Search
+                        placeholder='input search text'
+                        onSearch={onSearch}
+                        enterButton
+                        size='middle'
+                        style={{ width: '500px' }}
+                    />
+                </>
+            ) : null}
         </Layout.Header>
     )
 }
