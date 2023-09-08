@@ -1,11 +1,5 @@
-import { Home } from './pages/home/Home.tsx'
+import { Home, Auth, Friends, Message, Profile, Messages, Register } from './pages'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Messages } from './pages/messages/Messages.tsx'
-import { Message } from './pages/message/Message.tsx'
-import { Friends } from './pages/friends/Friends.tsx'
-import { Profile } from './pages/profile/Profile.tsx'
-import { Auth } from './pages/auth/Auth.tsx'
-import { Register } from './pages/register/Register.tsx'
 import { ROUTES } from './routes'
 
 const App = () => {
