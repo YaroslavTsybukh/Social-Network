@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Layout } from '../../layout/Layout.tsx'
 import { Button, Form, Input, Select } from 'antd'
 import { Link } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 const formItemLayout = {
     labelCol: {
@@ -150,7 +151,7 @@ export const Register: FC = () => {
                         <Button type='primary' htmlType='submit' style={{ width: '100%' }}>
                             Регистрация
                         </Button>
-                        Или <Link to='/login'>войти в систему сейчас!</Link>
+                        Или <Link to={ROUTES.LOGIN}>войти в систему сейчас!</Link>
                     </Form.Item>
                 </Form>
             </section>

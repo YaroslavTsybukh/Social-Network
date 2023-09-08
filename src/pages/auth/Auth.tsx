@@ -2,6 +2,7 @@ import { Layout } from '../../layout/Layout.tsx'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 export const Auth = () => {
     const onFinish = (values: any) => {
@@ -47,7 +48,7 @@ export const Auth = () => {
                         >
                             Войти в систему
                         </Button>
-                        Или <Link to='/register'>зарегистрироваться сейчас!</Link>
+                        Или <Link to={ROUTES.REGISTER}>зарегистрироваться сейчас!</Link>
                     </Form.Item>
                 </Form>
             </section>

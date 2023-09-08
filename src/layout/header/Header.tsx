@@ -3,6 +3,7 @@ import { TrademarkCircleTwoTone } from '@ant-design/icons'
 import { Menu, Layout, Input, MenuProps } from 'antd'
 import { menuItems } from './menuItems.tsx'
 import { Link } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 export const Header = () => {
     const [current, setCurrent] = useState('home')
@@ -26,7 +27,7 @@ export const Header = () => {
                 justifyContent: 'space-between',
             }}
         >
-            <Link to='/' style={{ display: 'inline-flex' }}>
+            <Link to={ROUTES.HOME} style={{ display: 'inline-flex' }}>
                 <TrademarkCircleTwoTone style={{ fontSize: '45px' }} />
             </Link>
 
