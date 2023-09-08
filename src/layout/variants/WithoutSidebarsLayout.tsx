@@ -1,5 +1,4 @@
-import { FloatButton, Layout as LayoutAnt } from 'antd'
-import { FormOutlined } from '@ant-design/icons'
+import { Layout as LayoutAnt } from 'antd'
 import { ReactNode, FC } from 'react'
 
 interface IProps {
