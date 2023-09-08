@@ -1,4 +1,4 @@
-import { Home, Auth, Friends, Message, Profile, Messages, Register } from './pages'
+import { Home, Auth, Friends, Message, Profile, Messages, Register, NotFound } from './pages'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ROUTES } from './routes'
 
@@ -16,6 +16,7 @@ const App = () => {
                 <Route path={ROUTES.MESSAGES} element={<Messages />} />
                 <Route path={`${ROUTES.MESSAGE}/:messageId`} element={<Message />} />
                 <Route path={ROUTES.FRIENDS} element={<Friends />} />
+                <Route path={ROUTES.NOTFOUND} element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     )
