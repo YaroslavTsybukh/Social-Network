@@ -14,7 +14,6 @@ export const WithoutSidebarsLayout: FC<IProps> = ({ childrenInfo }) => {
                     {childrenInfo}
                 </LayoutAnt.Content>
             </LayoutAnt>
-            <FloatButton icon={<FormOutlined />} onClick={() => console.log('click')} />
         </>
     )
 }
