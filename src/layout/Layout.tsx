@@ -15,12 +15,12 @@ export const Layout: React.FC<IProps> = ({ children }) => {
         <LayoutAnt style={{ minHeight: '100vh' }}>
             <Header />
 
-            {pathname == '/profile' || pathname == '/friend/1' || pathname == '/login' || pathname == '/register' ? (
-                <WithoutSidebarsLayout childrenInfo={children} />
+            {pathname == '/' || pathname == '/messages' ? (
+                <DefaultLayout childrenInfo={children} />
             ) : pathname == '/friends' || pathname == '/message/1' ? (
                 <WithLeftSidebarLayout childrenInfo={children} />
             ) : (
-                <DefaultLayout childrenInfo={children} />
+                <WithoutSidebarsLayout childrenInfo={children} />
             )}
         </LayoutAnt>
     )
