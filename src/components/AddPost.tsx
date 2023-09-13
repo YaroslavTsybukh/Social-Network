@@ -1,59 +1,78 @@
-import React from 'react'
-import { Button, Form, Input, Space, FormInstance, Upload, UploadProps, Card } from 'antd'
+import { Button, Form, Input, Space, Upload, Card, message } from 'antd'
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadOutlined } from '@ant-design/icons'
-
-const props: UploadProps = {
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange({ file, fileList }) {
-        if (file.status !== 'uploading') {
-            console.log(file, fileList)
-        }
-    },
-}
+import { useForm, Controller, SubmitHandler } from 'react-hook-form'
+import { usePostsStore } from '../stores/usePostsStore.ts'
+import { IPostField } from '../shared/IPostField.ts'
+import { useState } from 'react'
 
 export const AddPost = () => {
-    const [form] = Form.useForm()
+    const { handleSubmit, control, setValue, reset } = useForm<IPostField>({
+        defaultValues: {
+            description: '',
+            images: '',
+        },
+    })
+    const addPosts = usePostsStore((state) => state.addPost)
+    const [fileList, setFileList] = useState<UploadFile[]>([])
+
+    const onSubmit: SubmitHandler<IPostField> = (data) => {
+        addPosts(data)
+        setFileList([])
+        reset()
+
+        message.success('sending successfully.')
+    }
+
+    const uploadProps: UploadProps = {
+        onRemove: (file) => {
+            const index = fileList.indexOf(file)
+            const newFileList = fileList.slice()
+            newFileList.splice(index, 1)
+            setFileList(newFileList)
+        },
+        beforeUpload: (file: RcFile) => {
+            setFileList([...fileList, file])
+            setValue('images', JSON.stringify(fileList))
+
+            return false
+        },
+        fileList,
+    }
+
     return (
         <section>
             <Card style={{ marginBottom: 30 }}>
-                <Form form={form} name='validateOnly' layout='vertical' autoComplete='off'>
-                    <Form.Item name='name' rules={[{ required: true, message: 'Fill this field , please !' }]}>
-                        <Input placeholder='Что у вас нового?' />
+                <Form name='addingPostForm' layout='vertical' autoComplete='off' onFinish={handleSubmit(onSubmit)}>
+                    <Form.Item>
+                        <Controller
+                            name='description'
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <Input placeholder='Что у вас нового?' onChange={onChange} value={value} />
+                            )}
+                        />
                     </Form.Item>
                     <Form.Item>
-                        <Space size={100}>
-                            <Upload {...props}>
-                                <Button icon={<UploadOutlined />}>Upload</Button>
-                            </Upload>
-                            <SubmitButton form={form} />
-                        </Space>
+                        <Controller
+                            name='images'
+                            control={control}
+                            render={({ field }) => {
+                                return (
+                                    <Space size={100}>
+                                        <Upload {...field} {...uploadProps}>
+                                            <Button icon={<UploadOutlined />}>Upload</Button>
+                                        </Upload>
+                                        <Button type='primary' htmlType='submit'>
+                                            Отправить новую запись
+                                        </Button>
+                                    </Space>
+                                )
+                            }}
+                        />
                     </Form.Item>
                 </Form>
             </Card>
         </section>
-    )
-}
-
-const SubmitButton = ({ form }: { form: FormInstance }) => {
-    const [submittable, setSubmittable] = React.useState(false)
-
-    // Watch all values
-    const values = Form.useWatch([], form)
-
-    React.useEffect(() => {
-        form.validateFields({ validateOnly: true }).then(
-            () => {
-                setSubmittable(true)
-            },
-            () => {
-                setSubmittable(false)
-            },
-        )
-    }, [values])
-
-    return (
-        <Button type='primary' htmlType='submit' disabled={!submittable}>
-            Отправить новую запись
-        </Button>
     )
 }
