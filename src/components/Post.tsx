@@ -10,7 +10,7 @@ interface IProps {
 
 export const Post: FC<IProps> = ({ postInfo }) => {
     const { description, images } = postInfo
-    console.log(1)
+
     return (
         <>
             <Card
