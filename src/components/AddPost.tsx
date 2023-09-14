@@ -1,23 +1,36 @@
+import { useState } from 'react'
+import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Space, Upload, Card, message } from 'antd'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadOutlined } from '@ant-design/icons'
-import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import { usePostsStore } from '../stores/usePostsStore.ts'
 import { IPostField } from '../shared/IPostField.ts'
-import { useState } from 'react'
+
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { db, storage } from '../firebase.ts'
 
 export const AddPost = () => {
-    const { handleSubmit, control, setValue, reset } = useForm<IPostField>({
+    const { handleSubmit, control, reset } = useForm<IPostField>({
         defaultValues: {
             description: '',
-            images: '',
+            images: [],
+            timestamp: '',
         },
     })
-    const addPosts = usePostsStore((state) => state.addPost)
-    const [fileList, setFileList] = useState<UploadFile[]>([])
 
-    const onSubmit: SubmitHandler<IPostField> = (data) => {
-        addPosts(data)
+    const [fileList, setFileList] = useState<UploadFile[]>([])
+    const [urlList, setUrlList] = useState<string[]>([])
+
+    const onSubmit: SubmitHandler<IPostField> = async (data) => {
+        const transformData = {
+            ...data,
+            images: urlList,
+            timestamp: serverTimestamp(),
+        }
+
+        await addDoc(collection(db, 'posts'), transformData)
+
+        setUrlList([])
         setFileList([])
         reset()
 
@@ -32,8 +45,24 @@ export const AddPost = () => {
             setFileList(newFileList)
         },
         beforeUpload: (file: RcFile) => {
-            setFileList([...fileList, file])
-            setValue('images', JSON.stringify(fileList))
+            const imagesRef = ref(storage, `images/${file.name}`)
+            const uploadImage = uploadBytesResumable(imagesRef, file)
+
+            uploadImage.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    message.info('Upload is ' + progress + '% done')
+                },
+                (error) => {
+                    message.error(error.code)
+                },
+                async () => {
+                    const url = await getDownloadURL(uploadImage.snapshot.ref)
+                    setUrlList([...urlList, url])
+                    setFileList([...fileList, file])
+                },
+            )
 
             return false
         },
