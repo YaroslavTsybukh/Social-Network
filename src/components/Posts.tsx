@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Post } from './post/Post.tsx'
-import { collection, onSnapshot, query } from 'firebase/firestore'
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
 import { db } from '../firebase.ts'
 import { IPostField } from '../shared/postField.ts'
 
 export const Posts = () => {
     const [posts, setPosts] = useState<IPostField[]>([])
-
     useEffect(() => {
-        const q = query(collection(db, 'posts'))
+        const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'))
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             setPosts(
                 querySnapshot.docs.map((data) => ({
