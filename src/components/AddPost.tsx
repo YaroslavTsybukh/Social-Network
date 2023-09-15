@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import { Button, Form, Input, Space, Upload, Card, message } from 'antd'
+import { Button, Form, Input, Space, Upload, Card, message, Typography } from 'antd'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadOutlined } from '@ant-design/icons'
 import { IPostField } from '../shared/postField.ts'
@@ -77,8 +77,12 @@ export const AddPost = () => {
                         <Controller
                             name='description'
                             control={control}
-                            render={({ field: { onChange, value } }) => (
-                                <Input placeholder='Что у вас нового?' onChange={onChange} value={value} />
+                            rules={{ required: 'Заполните данное поле!' }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                <>
+                                    <Input placeholder='Что у вас нового?' onChange={onChange} value={value} />
+                                    {error && <Typography.Text type='danger'>{error.message}</Typography.Text>}
+                                </>
                             )}
                         />
                     </Form.Item>
