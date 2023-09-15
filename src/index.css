@@ -28,3 +28,12 @@ img[alt='User Avatar'] + .ant-image-mask {
 #normal_login .login-form-forgot {
   float: right;
 }
+
+.swiper {
+  width: 240px;
+  height: 320px;
+}
+
+.swiper-slide {
+  border-radius: 18px;
+}

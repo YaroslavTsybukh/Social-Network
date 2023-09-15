@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Post } from './Post.tsx'
+import { Post } from './post/Post.tsx'
 import { collection, onSnapshot, query } from 'firebase/firestore'
 import { db } from '../firebase.ts'
-import { IPostField } from '../shared/IPostField.ts'
+import { IPostField } from '../shared/postField.ts'
 
 export const Posts = () => {
     const [posts, setPosts] = useState<IPostField[]>([])
@@ -14,7 +14,7 @@ export const Posts = () => {
                 querySnapshot.docs.map((data) => ({
                     id: data.id,
                     description: data.data().description || '',
-                    images: data.data().images || [],
+                    urls: data.data().urls || [],
                     timestamp: data.data().timestamp || null,
                 })),
             )

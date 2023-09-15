@@ -3,7 +3,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Space, Upload, Card, message } from 'antd'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadOutlined } from '@ant-design/icons'
-import { IPostField } from '../shared/IPostField.ts'
+import { IPostField } from '../shared/postField.ts'
 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -13,7 +13,7 @@ export const AddPost = () => {
     const { handleSubmit, control, reset } = useForm<IPostField>({
         defaultValues: {
             description: '',
-            images: [],
+            urls: [],
             timestamp: '',
         },
     })
@@ -24,7 +24,7 @@ export const AddPost = () => {
     const onSubmit: SubmitHandler<IPostField> = async (data) => {
         const transformData = {
             ...data,
-            images: urlList,
+            urls: urlList,
             timestamp: serverTimestamp(),
         }
 
@@ -84,7 +84,7 @@ export const AddPost = () => {
                     </Form.Item>
                     <Form.Item>
                         <Controller
-                            name='images'
+                            name='urls'
                             control={control}
                             render={({ field }) => {
                                 return (

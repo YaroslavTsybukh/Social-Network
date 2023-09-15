@@ -1,15 +1,16 @@
 import { FC } from 'react'
-import { IPostField } from '../shared/IPostField.ts'
-import { Avatar, Card, Divider, Image, Typography } from 'antd'
+import { IPostField } from '../../shared/postField.ts'
+import { Avatar, Card, Divider, Typography } from 'antd'
 import { LikeOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 import Meta from 'antd/es/card/Meta'
+import { MediaContent } from './MediaContent.tsx'
 
 interface IProps {
     postInfo: IPostField
 }
 
 export const Post: FC<IProps> = ({ postInfo }) => {
-    const { description, images } = postInfo
+    const { description, urls } = postInfo
 
     return (
         <>
@@ -45,16 +46,12 @@ export const Post: FC<IProps> = ({ postInfo }) => {
                 <Divider />
 
                 {!description ? (
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Image width='50%' src={images[0]} alt='Image in post' />
-                    </div>
-                ) : description && images.length == 0 ? (
+                    <MediaContent urls={urls} />
+                ) : description && urls.length == 0 ? (
                     <Typography.Paragraph>{description}</Typography.Paragraph>
                 ) : (
                     <>
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <Image width='50%' src={images[0]} alt='Image in post' />
-                        </div>
+                        <MediaContent urls={urls} />
                         <Typography.Paragraph style={{ marginTop: '20px' }}>{description}</Typography.Paragraph>
                     </>
                 )}

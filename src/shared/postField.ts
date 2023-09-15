@@ -3,6 +3,6 @@ import { Timestamp } from 'firebase/firestore'
 export interface IPostField {
     id: string
     description: string
-    images: string[]
+    urls: string[]
     timestamp: Timestamp
 }
