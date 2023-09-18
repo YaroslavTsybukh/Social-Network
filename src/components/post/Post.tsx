@@ -44,7 +44,11 @@ export const Post: FC<IProps> = ({ postInfo }) => {
                     }
                     title='Ярослав Цыбух'
                     description={
-                        timestamp && <Typography.Text>{moment.unix(timestamp.seconds).fromNow()}</Typography.Text>
+                        timestamp && (
+                            <Typography.Text type='secondary'>
+                                {moment.unix(timestamp.seconds).fromNow()}
+                            </Typography.Text>
+                        )
                     }
                 />
                 <Divider />
