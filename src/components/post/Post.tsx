@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import moment from 'moment'
+import 'moment/dist/locale/ru'
 import { IPostField } from '../../shared/postField.ts'
 import { Avatar, Card, Divider, Typography } from 'antd'
 import { LikeOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
@@ -10,7 +12,7 @@ interface IProps {
 }
 
 export const Post: FC<IProps> = ({ postInfo }) => {
-    const { description, urls } = postInfo
+    const { description, urls, timestamp } = postInfo
 
     return (
         <>
@@ -41,7 +43,9 @@ export const Post: FC<IProps> = ({ postInfo }) => {
                         </Avatar>
                     }
                     title='Ярослав Цыбух'
-                    description='15 минут назад'
+                    description={
+                        timestamp && <Typography.Text>{moment.unix(timestamp.seconds).fromNow()}</Typography.Text>
+                    }
                 />
                 <Divider />
 
