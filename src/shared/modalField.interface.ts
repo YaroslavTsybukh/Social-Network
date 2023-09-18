@@ -1,4 +1,4 @@
-export interface FieldType {
+export interface IFieldType {
     workPlace?: string
     education?: string
     city?: string
