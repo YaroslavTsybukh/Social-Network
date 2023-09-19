@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { IPostField } from '../shared/postField.ts'
+import { IPostField } from '../shared/postField.interface.ts'
 
 interface IPostsStore {
     posts: IPostField[] | []

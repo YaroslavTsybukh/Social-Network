@@ -1,5 +1,6 @@
-export { AddPost } from './AddPost.tsx'
+export { AddPost } from './post/AddPost.tsx'
 export { Posts } from './Posts.tsx'
-export { EmptyWithModal } from './EmptyWithModal.tsx'
+export { EmptyWithModal } from './profileInfo/EmptyWithModal.tsx'
 export { FriendsGrid } from './FriendsGrid.tsx'
 export { SliderImages } from './SliderImages.tsx'
+export { UserProfileField } from './profileInfo/UserProfileField.tsx'

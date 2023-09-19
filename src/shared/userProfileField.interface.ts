@@ -1,4 +1,4 @@
-export interface IFieldType {
+export interface IUserProfileField {
     workPlace?: string
     education?: string
     city?: string

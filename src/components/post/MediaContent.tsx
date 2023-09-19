@@ -1,7 +1,10 @@
 import { FC } from 'react'
 import { Image } from 'antd'
 import { SliderImages } from '../SliderImages.tsx'
-import { IUrls } from '../../shared/urls.ts'
+
+interface IUrls {
+    urls: string[]
+}
 
 export const MediaContent: FC<IUrls> = ({ urls }) => {
     return (

@@ -3,18 +3,18 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Space, Upload, Card, message, Typography } from 'antd'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadOutlined } from '@ant-design/icons'
-import { IPostField } from '../shared/postField.ts'
+import { IPostField } from '../../shared/postField.interface.ts'
 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { db, storage } from '../firebase.ts'
+import { db, storage } from '../../firebase.ts'
 
 export const AddPost = () => {
     const { handleSubmit, control, reset } = useForm<IPostField>({
         defaultValues: {
             description: '',
             urls: [],
-            timestamp: '',
+            timestamp: serverTimestamp(),
         },
     })
 
@@ -59,8 +59,8 @@ export const AddPost = () => {
                 },
                 async () => {
                     const url = await getDownloadURL(uploadImage.snapshot.ref)
-                    setUrlList([...urlList, url])
-                    setFileList([...fileList, file])
+                    setUrlList((prevState) => [...prevState, url])
+                    setFileList((prevState) => [...prevState, file])
                 },
             )
 
@@ -87,22 +87,20 @@ export const AddPost = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Controller
-                            name='urls'
-                            control={control}
-                            render={({ field }) => {
-                                return (
-                                    <Space size={100}>
-                                        <Upload {...field} {...uploadProps}>
-                                            <Button icon={<UploadOutlined />}>Upload</Button>
-                                        </Upload>
-                                        <Button type='primary' htmlType='submit'>
-                                            Отправить новую запись
-                                        </Button>
-                                    </Space>
-                                )
-                            }}
-                        />
+                        <Space size={100}>
+                            <Controller
+                                name='urls'
+                                control={control}
+                                render={({ field }) => (
+                                    <Upload {...field} {...uploadProps}>
+                                        <Button icon={<UploadOutlined />}>Upload</Button>
+                                    </Upload>
+                                )}
+                            />
+                            <Button type='primary' htmlType='submit'>
+                                Отправить новую запись
+                            </Button>
+                        </Space>
                     </Form.Item>
                 </Form>
             </Card>
