@@ -53,9 +53,7 @@ export const Post: FC<IProps> = ({ postInfo }) => {
                 />
                 <Divider />
 
-                {!description ? (
-                    <MediaContent urls={urls} />
-                ) : description && urls.length == 0 ? (
+                {description && urls.length == 0 ? (
                     <Typography.Paragraph>{description}</Typography.Paragraph>
                 ) : (
                     <>

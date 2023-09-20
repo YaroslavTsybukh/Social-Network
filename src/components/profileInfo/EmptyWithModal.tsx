@@ -42,6 +42,7 @@ export const EmptyWithModal: FC<IProps> = ({ formName }) => {
     const handleCloseModal = () => {
         setIsModalOpen(false)
     }
+
     const onSubmit: SubmitHandler<IUserProfileField> = async (data) => {
         if (dateString) {
             const transformData = {
@@ -54,6 +55,7 @@ export const EmptyWithModal: FC<IProps> = ({ formName }) => {
         }
 
         setDateString(null)
+        handleCloseModal()
     }
 
     switch (formName) {

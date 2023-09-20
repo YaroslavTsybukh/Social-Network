@@ -6,6 +6,7 @@ import { IPostField } from '../shared/postField.interface.ts'
 
 export const Posts = () => {
     const [posts, setPosts] = useState<IPostField[]>([])
+
     useEffect(() => {
         const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'))
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
