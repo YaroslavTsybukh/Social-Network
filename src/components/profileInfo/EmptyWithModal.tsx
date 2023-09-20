@@ -1,8 +1,10 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SaveOutlined } from '@ant-design/icons'
 import { Button, Empty, Form, Modal } from 'antd'
+import { setDoc, doc } from 'firebase/firestore'
 import { IUserProfileField } from '../../shared/userProfileField.interface.ts'
 import { UserProfileField } from './UserProfileField.tsx'
 import {
@@ -13,16 +15,25 @@ import {
     aboutYourselfInfo,
     workAndEducationInfo,
 } from './dataForFields.ts'
+import { db } from '../../firebase.ts'
+
+dayjs.extend(customParseFormat)
 
 interface IProps {
     formName: string
 }
 
 export const EmptyWithModal: FC<IProps> = ({ formName }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const { handleSubmit, control } = useForm<IUserProfileField>()
-
     let formFields
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const { handleSubmit, control, reset, formState } = useForm<IUserProfileField>()
+    const [dateString, setDateString] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (formState.isSubmitSuccessful) {
+            reset()
+        }
+    }, [formState.isSubmitSuccessful, reset])
 
     const handleOpenModal = () => {
         setIsModalOpen(true)
@@ -31,9 +42,18 @@ export const EmptyWithModal: FC<IProps> = ({ formName }) => {
     const handleCloseModal = () => {
         setIsModalOpen(false)
     }
+    const onSubmit: SubmitHandler<IUserProfileField> = async (data) => {
+        if (dateString) {
+            const transformData = {
+                ...data,
+                date: new Date(dayjs(dateString, 'DD/MM/YYYY').format('YYYY-MM-DD')),
+            }
+            await setDoc(doc(db, 'userData', 'userInformation'), transformData, { merge: true })
+        } else {
+            await setDoc(doc(db, 'userData', 'userInformation'), data, { merge: true })
+        }
 
-    const onSubmit: SubmitHandler<IUserProfileField> = (data) => {
-        console.log(data)
+        setDateString(null)
     }
 
     switch (formName) {
@@ -68,7 +88,13 @@ export const EmptyWithModal: FC<IProps> = ({ formName }) => {
             formFields = (
                 <>
                     {basicInfo.map((input, idx) => (
-                        <UserProfileField key={idx} info={input} control={control} />
+                        <UserProfileField
+                            key={idx}
+                            info={input}
+                            control={control}
+                            dateString={dateString}
+                            setDateString={(date) => setDateString(date)}
+                        />
                     ))}
                 </>
             )
