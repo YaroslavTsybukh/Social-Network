@@ -10,7 +10,7 @@ interface IUserProfileProps {
     setDateString?: (value: string) => void
 }
 
-export const UserProfileField: FC<IUserProfileProps> = ({ info, control, setDateString, dateString }) => {
+export const FormField: FC<IUserProfileProps> = ({ info, control, setDateString, dateString }) => {
     return (
         <Form.Item label={info.label} tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}>
             <Controller

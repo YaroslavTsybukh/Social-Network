@@ -1,55 +1,35 @@
 import { TabsProps } from 'antd'
-import { EmptyWithModal } from '../../components'
+import { ProfileInfoWrapper } from '../../components'
 
 export const infoTabs: TabsProps['items'] = [
     {
         key: '1',
         label: 'Общий сведения',
-        children: <EmptyWithModal formName='generalInformation' />,
+        children: <ProfileInfoWrapper formName='generalInformation' />,
     },
     {
         key: '2',
         label: 'Работа и образование',
-        children: (
-            <>
-                <EmptyWithModal formName='jobAndEducation' />
-            </>
-        ),
+        children: <ProfileInfoWrapper formName='jobAndEducation' />,
     },
     {
         key: '3',
         label: 'Места проживания',
-        children: (
-            <>
-                <EmptyWithModal formName='dwelling' />
-            </>
-        ),
+        children: <ProfileInfoWrapper formName='dwelling' />,
     },
     {
         key: '4',
         label: 'Контактная и основная информация',
-        children: (
-            <>
-                <EmptyWithModal formName='basicInformation' />
-            </>
-        ),
+        children: <ProfileInfoWrapper formName='basicInformation' />,
     },
     {
         key: '5',
         label: 'Семья и отношения',
-        children: (
-            <>
-                <EmptyWithModal formName='family' />
-            </>
-        ),
+        children: <ProfileInfoWrapper formName='family' />,
     },
     {
         key: '6',
         label: 'Информация о вас',
-        children: (
-            <>
-                <EmptyWithModal formName='infoAboutYourself' />
-            </>
-        ),
+        children: <ProfileInfoWrapper formName='infoAboutYourself' />,
     },
 ]

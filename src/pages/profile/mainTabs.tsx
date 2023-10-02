@@ -19,7 +19,7 @@ export const mainTabs: TabsProps['items'] = [
         label: 'Информация',
         children: (
             <Card>
-                <Tabs tabPosition='left' items={infoTabs} />
+                <Tabs tabPosition='left' items={infoTabs} onChange={(data) => console.log(data)} />
             </Card>
         ),
     },
