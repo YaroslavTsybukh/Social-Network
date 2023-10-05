@@ -86,7 +86,7 @@ export const basicInfo = [
     {
         label: 'День рождения',
         name: 'date',
-        type: null,
+        type: 'date',
     },
 ]
 

@@ -1,12 +1,14 @@
 import { FC, ReactNode } from 'react'
 import { PlusCircleTwoTone } from '@ant-design/icons'
 import { Typography } from 'antd'
+
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
-
 dayjs.locale('ru')
 
-export const UserProfileFilledFields: FC<{ data: string | Date; icon: ReactNode; text: string }> = ({
+import { DocumentData } from 'firebase/firestore'
+
+export const UserProfileFilledFields: FC<{ data: string | DocumentData; icon: ReactNode; text: string }> = ({
     data,
     icon,
     text,
@@ -20,7 +22,7 @@ export const UserProfileFilledFields: FC<{ data: string | Date; icon: ReactNode;
             </Typography.Text>
 
             {typeof data == 'object' && data ? (
-                dayjs.unix(data!.seconds).format('DD MMM YYYY')
+                dayjs.unix(data.seconds).format('DD MMM YYYY')
             ) : typeof data !== 'object' && data ? (
                 data
             ) : (

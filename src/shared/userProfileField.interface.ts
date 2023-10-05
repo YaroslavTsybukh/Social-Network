@@ -14,6 +14,6 @@ export interface IUserProfileField {
     webSite: string
     profile: string
     gender: string
-    date: Date
+    date: string
     infoAboutMyself: string
 }

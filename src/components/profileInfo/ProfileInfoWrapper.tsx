@@ -3,11 +3,11 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { EmptyWithModal } from './EmptyWithModal.tsx'
 import { ProfileInfo } from './ProfileInfo.tsx'
 import { db } from '../../firebase.ts'
-import { IUserProfileField } from '../../shared/userProfileField.interface.ts'
+
+import { DocumentData } from 'firebase/firestore'
 
 export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
-    const [userData, setData] = useState<IUserProfileField | null>(null)
-
+    const [userData, setData] = useState<DocumentData | null>(null)
     useEffect(() => {
         const unsubscribe = onSnapshot(doc(db, 'userData', 'userInformation'), (doc) => {
             if (doc.exists()) {
