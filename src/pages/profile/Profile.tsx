@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Layout } from '../../layout/Layout.tsx'
 import { Button, Card, Divider, Image, Input, Space, Tabs } from 'antd'
 import { EditOutlined, MessageOutlined, UserAddOutlined } from '@ant-design/icons'
@@ -12,6 +12,7 @@ dayjs.extend(customParseFormat)
 
 export const Profile: FC = () => {
     const params = useParams()
+    const [tabNumber, setTabNumber] = useState<string>('1')
 
     const onSearch = (value: string) => console.log(value)
 
@@ -58,7 +59,7 @@ export const Profile: FC = () => {
                                 description='Друзья: 100'
                                 style={{ alignItems: 'center' }}
                             />
-                            <Button type='primary' icon={<EditOutlined />}>
+                            <Button type='primary' icon={<EditOutlined />} onClick={() => setTabNumber('2')}>
                                 Редактировать профиль
                             </Button>
                         </>
@@ -66,7 +67,7 @@ export const Profile: FC = () => {
                 </Space>
                 <Divider />
                 <Tabs
-                    defaultActiveKey='1'
+                    activeKey={`${tabNumber}`}
                     items={[
                         {
                             key: '1',
@@ -138,6 +139,7 @@ export const Profile: FC = () => {
                             ),
                         },
                     ]}
+                    onChange={(key) => setTabNumber(key)}
                 />
             </Card>
         </Layout>
