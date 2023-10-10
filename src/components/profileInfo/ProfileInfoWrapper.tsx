@@ -8,6 +8,7 @@ import { DocumentData } from 'firebase/firestore'
 
 export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
     const [userData, setData] = useState<DocumentData | null>(null)
+
     useEffect(() => {
         const unsubscribe = onSnapshot(doc(db, 'userData', 'userInformation'), (doc) => {
             if (doc.exists()) {
@@ -20,5 +21,7 @@ export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
         return () => unsubscribe()
     }, [])
 
-    return <>{userData ? <ProfileInfo tab={formName} data={userData} /> : <EmptyWithModal formName={formName} />}</>
+    return (
+        <>{userData ? <ProfileInfo data={userData} formName={formName} /> : <EmptyWithModal formName={formName} />}</>
+    )
 }

@@ -19,12 +19,11 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 dayjs.extend(customParseFormat)
 
-export const ModalWithForm: FC<{
-    formName: string
-    isModalOpen: boolean
-    setIsModalOpen: () => void
-    setIsModalClose: () => void
-}> = ({ formName, setIsModalClose, isModalOpen }) => {
+export const ModalWithForm: FC<{ formName: string; setCloseModal: () => void; isOpenModal: boolean }> = ({
+    formName,
+    setCloseModal,
+    isOpenModal,
+}) => {
     let formFields
     const { handleSubmit, control, reset, formState } = useForm<IUserProfileField>()
     const [dateString, setDateString] = useState<string | null>(null)
@@ -47,7 +46,7 @@ export const ModalWithForm: FC<{
         }
 
         setDateString(null)
-        setIsModalClose()
+        setCloseModal()
     }
 
     switch (formName) {
@@ -119,9 +118,9 @@ export const ModalWithForm: FC<{
     return (
         <Modal
             title='Общие сведения'
-            open={isModalOpen}
+            open={isOpenModal}
             footer={null}
-            onCancel={setIsModalClose}
+            onCancel={setCloseModal}
             bodyStyle={{ marginTop: 30 }}
         >
             <Form

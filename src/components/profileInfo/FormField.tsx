@@ -16,7 +16,11 @@ type FieldNames = keyof IUserProfileField
 
 export const FormField: FC<IUserProfileProps> = ({ info, control, setDateString, dateString }) => {
     return (
-        <Form.Item label={info.label} tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}>
+        <Form.Item
+            label={info.label}
+            name={info.name as FieldNames}
+            tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}
+        >
             <Controller
                 name={info.name as FieldNames}
                 control={control}

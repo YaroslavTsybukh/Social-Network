@@ -6,6 +6,6 @@ import 'react-chat-elements/dist/main.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <App />
+        <App />,
     </React.StrictMode>,
 )

@@ -1,20 +1,19 @@
 import { FC } from 'react'
 import { Layout } from '../../layout/Layout.tsx'
-import { Button, Card, Divider, Image, Space, Tabs } from 'antd'
+import { Button, Card, Divider, Image, Input, Space, Tabs } from 'antd'
 import { EditOutlined, MessageOutlined, UserAddOutlined } from '@ant-design/icons'
-import { mainTabs } from './mainTabs.tsx'
 
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { useParams } from 'react-router-dom'
+import { AddPost, FriendsGrid, Posts, ProfileInfoWrapper } from '../../components'
+
 dayjs.extend(customParseFormat)
 
 export const Profile: FC = () => {
     const params = useParams()
 
-    const onChange = (key: string) => {
-        console.log(key)
-    }
+    const onSearch = (value: string) => console.log(value)
 
     return (
         <Layout>
@@ -66,7 +65,80 @@ export const Profile: FC = () => {
                     )}
                 </Space>
                 <Divider />
-                <Tabs defaultActiveKey='1' items={mainTabs} onChange={onChange} />
+                <Tabs
+                    defaultActiveKey='1'
+                    items={[
+                        {
+                            key: '1',
+                            label: 'Публикации',
+                            children: (
+                                <Card>
+                                    <AddPost />
+                                    <Posts />
+                                </Card>
+                            ),
+                        },
+                        {
+                            key: '2',
+                            label: 'Информация',
+                            children: (
+                                <Card>
+                                    <Tabs
+                                        tabPosition='left'
+                                        items={[
+                                            {
+                                                key: 'generalInformation',
+                                                label: 'Общий сведения',
+                                                children: <ProfileInfoWrapper formName='generalInformation' />,
+                                            },
+                                            {
+                                                key: 'jobAndEducation',
+                                                label: 'Работа и образование',
+                                                children: <ProfileInfoWrapper formName='jobAndEducation' />,
+                                            },
+                                            {
+                                                key: 'dwelling',
+                                                label: 'Места проживания',
+                                                children: <ProfileInfoWrapper formName='dwelling' />,
+                                            },
+                                            {
+                                                key: 'basicInformation',
+                                                label: 'Контактная и основная информация',
+                                                children: <ProfileInfoWrapper formName='basicInformation' />,
+                                            },
+                                            {
+                                                key: 'family',
+                                                label: 'Семья и отношения',
+                                                children: <ProfileInfoWrapper formName='family' />,
+                                            },
+                                            {
+                                                key: 'infoAboutYourself',
+                                                label: 'Информация о вас',
+                                                children: <ProfileInfoWrapper formName='infoAboutYourself' />,
+                                            },
+                                        ]}
+                                    />
+                                </Card>
+                            ),
+                        },
+                        {
+                            key: '3',
+                            label: 'Друзья',
+                            children: (
+                                <Card>
+                                    <Input.Search
+                                        placeholder='Поиск по друзьям...'
+                                        onSearch={onSearch}
+                                        style={{ marginBottom: 50 }}
+                                        enterButton
+                                        size='middle'
+                                    />
+                                    <FriendsGrid />
+                                </Card>
+                            ),
+                        },
+                    ]}
+                />
             </Card>
         </Layout>
     )

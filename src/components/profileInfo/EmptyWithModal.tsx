@@ -7,14 +7,14 @@ import { ModalWithForm } from './ModalWithForm.tsx'
 dayjs.extend(customParseFormat)
 
 export const EmptyWithModal: FC<{ formName: string }> = ({ formName }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isOpen, setOpen] = useState<boolean>(false)
 
     const handleOpenModal = () => {
-        setIsModalOpen(true)
+        setOpen(true)
     }
 
     const handleCloseModal = () => {
-        setIsModalOpen(false)
+        setOpen(false)
     }
 
     return (
@@ -28,12 +28,7 @@ export const EmptyWithModal: FC<{ formName: string }> = ({ formName }) => {
                     Добавить информацию
                 </Button>
             </Empty>
-            <ModalWithForm
-                formName={formName}
-                setIsModalOpen={handleOpenModal}
-                setIsModalClose={handleCloseModal}
-                isModalOpen={isModalOpen}
-            />
+            <ModalWithForm formName={formName} setCloseModal={handleCloseModal} isOpenModal={isOpen} />
         </>
     )
 }
