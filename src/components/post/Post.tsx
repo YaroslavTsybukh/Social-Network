@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import moment from 'moment'
 import 'moment/dist/locale/ru'
-import { IPostField } from '../../shared/postField.ts'
+import { IPostField } from '../../shared/postField.interface.ts'
 import { Avatar, Card, Divider, Typography } from 'antd'
 import { LikeOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 import Meta from 'antd/es/card/Meta'
@@ -53,9 +53,7 @@ export const Post: FC<IProps> = ({ postInfo }) => {
                 />
                 <Divider />
 
-                {!description ? (
-                    <MediaContent urls={urls} />
-                ) : description && urls.length == 0 ? (
+                {description && urls.length == 0 ? (
                     <Typography.Paragraph>{description}</Typography.Paragraph>
                 ) : (
                     <>
