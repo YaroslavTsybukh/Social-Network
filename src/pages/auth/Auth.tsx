@@ -24,7 +24,7 @@ export const Auth = () => {
 
             Cookies.set('accessToken', accessToken)
 
-            navigate(ROUTES.HOME)
+            navigate(ROUTES.HOME, { replace: true })
         } catch (e) {
             if (e instanceof Error) {
                 console.log(e.message)

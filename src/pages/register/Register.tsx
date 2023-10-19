@@ -57,7 +57,7 @@ export const Register: FC = () => {
                 country: data.country,
             })
 
-            navigate(ROUTES.LOGIN)
+            navigate(ROUTES.LOGIN, { replace: true })
         } catch (error) {
             if (error instanceof Error) {
                 console.log(error.message)
