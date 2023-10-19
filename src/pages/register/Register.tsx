@@ -1,8 +1,22 @@
 import { FC } from 'react'
 import { Layout } from '../../layout/Layout.tsx'
 import { Button, Form, Input, Select } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+
+import { auth, db } from '../../firebase.ts'
+import { doc, setDoc } from 'firebase/firestore'
+
+interface IFormFields {
+    confirm: string
+    country: string
+    email: string
+    fullName: string
+    gender: string
+    password: string
+    phone: string
+}
 
 const formItemLayout = {
     labelCol: {
@@ -30,20 +44,28 @@ const tailFormItemLayout = {
 
 export const Register: FC = () => {
     const [form] = Form.useForm()
+    const navigate = useNavigate()
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
+    const onFinish = async (data: IFormFields) => {
+        try {
+            const { user } = await createUserWithEmailAndPassword(auth, data.email, data.password)
+
+            await setDoc(doc(db, 'user', user.uid), {
+                fullName: data.fullName,
+                gender: data.gender,
+                phone: data.phone,
+                country: data.country,
+            })
+
+            navigate(ROUTES.LOGIN)
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message)
+            } else if (typeof error == 'string') {
+                console.log(error)
+            }
+        }
     }
-
-    const prefixSelector = (
-        <Form.Item name='prefix' noStyle>
-            <Select style={{ width: 70 }}>
-                <Select.Option value='380'>+380</Select.Option>
-                <Select.Option value='49'>+49</Select.Option>
-                <Select.Option value='48'>+48</Select.Option>
-            </Select>
-        </Form.Item>
-    )
 
     return (
         <Layout>
@@ -53,7 +75,6 @@ export const Register: FC = () => {
                     form={form}
                     name='register'
                     onFinish={onFinish}
-                    initialValues={{ prefix: '380' }}
                     style={{ maxWidth: 600, margin: '0 auto' }}
                     scrollToFirstError
                 >
@@ -103,11 +124,7 @@ export const Register: FC = () => {
                         label='Номер телефона'
                         rules={[{ required: true, message: 'Укажите свой номер телефона!' }]}
                     >
-                        <Input
-                            addonBefore={prefixSelector}
-                            style={{ width: '100%' }}
-                            placeholder='Введите свой номер телефона'
-                        />
+                        <Input style={{ width: '100%' }} placeholder='Введите свой номер телефона' />
                     </Form.Item>
 
                     <Form.Item
@@ -116,7 +133,8 @@ export const Register: FC = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Укажите свой пароль!',
+                                message: 'Укажите корректный пароль! Он должен иметь минимум 6 символов !',
+                                min: 6,
                             },
                         ]}
                         hasFeedback
@@ -132,7 +150,8 @@ export const Register: FC = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Подтвердите свой пароль!',
+                                message: 'Подтвердите свой пароль! Он должен иметь минимум 6 символов ! ',
+                                min: 6,
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {

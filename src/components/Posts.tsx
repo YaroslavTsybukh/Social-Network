@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Post } from './post/Post.tsx'
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
 import { db } from '../firebase.ts'
-import { IPostField } from '../shared/postField.interface.ts'
+import { IPostField } from '../core/shared/postField.interface.ts'
 
 export const Posts = () => {
     const [posts, setPosts] = useState<IPostField[]>([])

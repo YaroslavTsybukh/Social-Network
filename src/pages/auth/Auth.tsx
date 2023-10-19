@@ -1,12 +1,37 @@
 import { Layout } from '../../layout/Layout.tsx'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
+import Cookies from 'js-cookie'
+
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../firebase.ts'
+
+interface IAuthUser {
+    email: string
+    remember: boolean
+    password: string
+}
 
 export const Auth = () => {
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
+    const navigate = useNavigate()
+
+    const onFinish = async (data: IAuthUser) => {
+        try {
+            const { user } = await signInWithEmailAndPassword(auth, data.email, data.password)
+            const accessToken = await user.getIdToken()
+
+            Cookies.set('accessToken', accessToken)
+
+            navigate(ROUTES.HOME)
+        } catch (e) {
+            if (e instanceof Error) {
+                console.log(e.message)
+            } else if (typeof e == 'string') {
+                console.log(e)
+            }
+        }
     }
 
     return (
@@ -16,11 +41,11 @@ export const Auth = () => {
                     style={{ margin: '0 auto', maxWidth: 300, width: '100%' }}
                     name='normal_login'
                     className='login-form'
-                    initialValues={{ remember: true }}
+                    initialValues={{ remember: false }}
                     onFinish={onFinish}
                 >
-                    <Form.Item name='username' rules={[{ required: true, message: 'Введите свой логин!' }]}>
-                        <Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='Имя' />
+                    <Form.Item name='email' rules={[{ required: true, message: 'Введите свой email!' }]}>
+                        <Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='Email' />
                     </Form.Item>
                     <Form.Item name='password' rules={[{ required: true, message: 'Введите свой пароль!' }]}>
                         <Input
