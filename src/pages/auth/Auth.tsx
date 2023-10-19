@@ -22,7 +22,13 @@ export const Auth = () => {
             const { user } = await signInWithEmailAndPassword(auth, data.email, data.password)
             const accessToken = await user.getIdToken()
 
-            Cookies.set('accessToken', accessToken)
+            if (data.remember) {
+                Cookies.set('accessToken', accessToken, {
+                    expires: new Date(new Date().getTime() + 10 * 60 * 1000),
+                })
+            } else {
+                Cookies.set('accessToken', accessToken)
+            }
 
             navigate(ROUTES.HOME, { replace: true })
         } catch (e) {
