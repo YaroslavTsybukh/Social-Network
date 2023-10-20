@@ -2,6 +2,7 @@ import { Home, Auth, Friends, Message, Profile, Messages, Register, NotFound } f
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ROUTES } from './routes'
 import { PrivateRoute } from './core/utils/router/privateRoute.tsx'
+import { ResetPassword } from './pages/auth/ResetPassword.tsx'
 
 const App = () => {
     return (
@@ -9,6 +10,7 @@ const App = () => {
             <Routes>
                 <Route path={ROUTES.LOGIN} element={<Auth />} />
                 <Route path={ROUTES.REGISTER} element={<Register />} />
+                <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
                 <Route element={<PrivateRoute />}>
                     <Route path={ROUTES.HOME} element={<Home />} />
                     {[ROUTES.PROFILE, `${ROUTES.FRIEND}/:friendId`].map((path, i) => (

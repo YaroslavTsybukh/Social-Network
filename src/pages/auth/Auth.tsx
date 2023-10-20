@@ -46,37 +46,25 @@ export const Auth = () => {
                 <Form
                     style={{ margin: '0 auto', maxWidth: 300, width: '100%' }}
                     name='normal_login'
-                    className='login-form'
                     initialValues={{ remember: false }}
                     onFinish={onFinish}
                 >
                     <Form.Item name='email' rules={[{ required: true, message: 'Введите свой email!' }]}>
-                        <Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='Email' />
+                        <Input prefix={<UserOutlined />} placeholder='Email' />
                     </Form.Item>
                     <Form.Item name='password' rules={[{ required: true, message: 'Введите свой пароль!' }]}>
-                        <Input
-                            prefix={<LockOutlined className='site-form-item-icon' />}
-                            type='password'
-                            placeholder='Пароль'
-                        />
+                        <Input prefix={<LockOutlined />} type='password' placeholder='Пароль' />
                     </Form.Item>
                     <Form.Item>
                         <Form.Item name='remember' valuePropName='checked' noStyle>
                             <Checkbox>Запомнить меня</Checkbox>
                         </Form.Item>
 
-                        <Link className='login-form-forgot' to=''>
-                            Забыли пароль?
-                        </Link>
+                        <Link to={ROUTES.RESET_PASSWORD}>Забыли пароль?</Link>
                     </Form.Item>
 
                     <Form.Item>
-                        <Button
-                            style={{ width: '100%' }}
-                            type='primary'
-                            htmlType='submit'
-                            className='login-form-button'
-                        >
+                        <Button style={{ width: '100%' }} type='primary' htmlType='submit'>
                             Войти в систему
                         </Button>
                         Или <Link to={ROUTES.REGISTER}>зарегистрироваться сейчас!</Link>
