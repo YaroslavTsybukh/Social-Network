@@ -10,7 +10,7 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons'
-import { IUserProfileField } from '../../shared/userProfileField.interface.ts'
+import { IUserProfileField } from '../../core/shared/userProfileField.interface.ts'
 import { ReactNode } from 'react'
 
 interface IInfo {

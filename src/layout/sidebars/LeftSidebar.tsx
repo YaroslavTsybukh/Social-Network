@@ -1,8 +1,28 @@
 import { Avatar, Button, Card, Menu, Space, Layout, Typography } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { useEffect } from 'react'
+
 import { sidebarItems } from './sidebarItems.tsx'
+import { ROUTES } from '../../routes'
+
+import { signOut } from 'firebase/auth'
+import { auth } from '../../firebase.ts'
+
 export const LeftSidebar = () => {
-    const handleExit = () => {
-        console.log('exit')
+    const navigate = useNavigate()
+    const handleExit = async () => {
+        try {
+            await signOut(auth)
+            Cookies.remove('accessToken')
+            navigate(ROUTES.LOGIN, { replace: true })
+        } catch (e) {
+            if (e instanceof Error) {
+                console.log(e.message)
+            } else if (typeof e == 'string') {
+                console.log(e)
+            }
+        }
     }
 
     return (

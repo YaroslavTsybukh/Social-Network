@@ -3,7 +3,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Space, Upload, Card, message, Typography } from 'antd'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadOutlined } from '@ant-design/icons'
-import { IPostField } from '../../shared/postField.interface.ts'
+import { IPostField } from '../../core/shared/postField.interface.ts'
 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'

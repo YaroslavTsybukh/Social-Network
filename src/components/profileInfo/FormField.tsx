@@ -3,7 +3,7 @@ import { InfoCircleOutlined } from '@ant-design/icons'
 import { Form, Input, DatePicker } from 'antd'
 import { Control, Controller } from 'react-hook-form'
 import dayjs from 'dayjs'
-import { IUserProfileField } from '../../shared/userProfileField.interface.ts'
+import { IUserProfileField } from '../../core/shared/userProfileField.interface.ts'
 
 interface IUserProfileProps {
     info: { label: string; name: string; type: string }

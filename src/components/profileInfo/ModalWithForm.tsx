@@ -12,7 +12,7 @@ import {
 } from './dataForModalFields.ts'
 import { FormField } from './FormField.tsx'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { IUserProfileField } from '../../shared/userProfileField.interface.ts'
+import { IUserProfileField } from '../../core/shared/userProfileField.interface.ts'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase.ts'
 import customParseFormat from 'dayjs/plugin/customParseFormat'

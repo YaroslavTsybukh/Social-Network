@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import moment from 'moment'
 import 'moment/dist/locale/ru'
-import { IPostField } from '../../shared/postField.interface.ts'
+import { IPostField } from '../../core/shared/postField.interface.ts'
 import { Avatar, Card, Divider, Typography } from 'antd'
 import { LikeOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 import Meta from 'antd/es/card/Meta'
