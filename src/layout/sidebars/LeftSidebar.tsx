@@ -1,21 +1,16 @@
 import { Avatar, Button, Card, Menu, Space, Layout, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { useEffect } from 'react'
 
 import { sidebarItems } from './sidebarItems.tsx'
 import { ROUTES } from '../../routes'
 
-import { signOut, onAuthStateChanged } from 'firebase/auth'
+import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase.ts'
 
 export const LeftSidebar = () => {
     const navigate = useNavigate()
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            console.log(user)
-        }
-    })
     const handleExit = async () => {
         try {
             await signOut(auth)
