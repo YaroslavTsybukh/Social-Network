@@ -1,7 +1,7 @@
 export interface IUserProfileField {
     workPlace: string
     education: string
-    city: string
+    country: string
     familyStatus: string
     phone: string
     work: string
