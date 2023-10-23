@@ -37,7 +37,7 @@ export const ModalWithForm: FC<{ formName: string; setCloseModal: () => void; is
         }
     }, [formState.isSubmitSuccessful, reset])
 
-    const onSubmit: SubmitHandler<IUserProfileField> = async (data) => {
+    const onSubmit: SubmitHandler<IUserProfileField> = (data) => {
         onAuthStateChanged(auth, async (user) => {
             if (dateString) {
                 const transformData = {
