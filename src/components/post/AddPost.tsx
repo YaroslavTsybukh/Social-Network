@@ -7,7 +7,8 @@ import { IPostField } from '../../core/shared/postField.interface.ts'
 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { db, storage } from '../../firebase.ts'
+import { onAuthStateChanged } from 'firebase/auth'
+import { db, storage, auth } from '../../firebase.ts'
 
 export const AddPost = () => {
     const { handleSubmit, control, reset } = useForm<IPostField>({
@@ -21,14 +22,16 @@ export const AddPost = () => {
     const [fileList, setFileList] = useState<UploadFile[]>([])
     const [urlList, setUrlList] = useState<string[]>([])
 
-    const onSubmit: SubmitHandler<IPostField> = async (data) => {
+    const onSubmit: SubmitHandler<IPostField> = (data) => {
         const transformData = {
             ...data,
             urls: urlList,
             timestamp: serverTimestamp(),
         }
 
-        await addDoc(collection(db, 'posts'), transformData)
+        onAuthStateChanged(auth, async (user) => {
+            await addDoc(collection(db, `user/${user?.uid}/posts`), transformData)
+        })
 
         setUrlList([])
         setFileList([])
