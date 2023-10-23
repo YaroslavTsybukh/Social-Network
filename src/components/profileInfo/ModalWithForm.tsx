@@ -1,7 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'antd'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { SaveOutlined } from '@ant-design/icons'
+import { onAuthStateChanged } from 'firebase/auth'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
 import {
     aboutYourselfInfo,
     basicInfo,
@@ -11,11 +15,10 @@ import {
     workAndEducationInfo,
 } from './dataForModalFields.ts'
 import { FormField } from './FormField.tsx'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import { IUserProfileField } from '../../core/shared/userProfileField.interface.ts'
+
 import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../../firebase.ts'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { db, auth } from '../../firebase.ts'
 
 dayjs.extend(customParseFormat)
 
@@ -35,15 +38,18 @@ export const ModalWithForm: FC<{ formName: string; setCloseModal: () => void; is
     }, [formState.isSubmitSuccessful, reset])
 
     const onSubmit: SubmitHandler<IUserProfileField> = async (data) => {
-        if (dateString) {
-            const transformData = {
-                ...data,
-                date: new Date(dayjs(dateString, 'DD/MM/YYYY').format('YYYY-MM-DD')),
+        onAuthStateChanged(auth, async (user) => {
+            if (dateString) {
+                const transformData = {
+                    ...data,
+                    date: new Date(dayjs(dateString, 'DD/MM/YYYY').format('YYYY-MM-DD')),
+                }
+
+                await setDoc(doc(db, 'user', user!.uid), transformData, { merge: true })
+            } else {
+                await setDoc(doc(db, 'user', user!.uid), data, { merge: true })
             }
-            await setDoc(doc(db, 'userData', 'userInformation'), transformData, { merge: true })
-        } else {
-            await setDoc(doc(db, 'userData', 'userInformation'), data, { merge: true })
-        }
+        })
 
         setDateString(null)
         setCloseModal()

@@ -36,7 +36,11 @@ export const infoCategories: IInfoCategories[] = [
                 icon: <BulbOutlined style={{ fontSize: 18, marginRight: 10 }} />,
                 text: 'Образование',
             },
-            { field: 'city', icon: <SmileOutlined style={{ fontSize: 18, marginRight: 10 }} />, text: 'Город' },
+            {
+                field: 'country',
+                icon: <SmileOutlined style={{ fontSize: 18, marginRight: 10 }} />,
+                text: 'Страна',
+            },
             {
                 field: 'familyStatus',
                 icon: <LaptopOutlined style={{ fontSize: 18, marginRight: 10 }} />,
@@ -80,7 +84,7 @@ export const infoCategories: IInfoCategories[] = [
         category: 'basicInformation',
         items: [
             {
-                field: 'phoneNumber',
+                field: 'phone',
                 icon: <PhoneOutlined style={{ fontSize: 18, marginRight: 10 }} />,
                 text: 'Мобильный',
             },

@@ -3,7 +3,7 @@ import { Layout } from '../../layout/Layout.tsx'
 import { Button, Form, Input, Select } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 import { auth, db } from '../../firebase.ts'
 import { doc, setDoc } from 'firebase/firestore'
@@ -50,10 +50,14 @@ export const Register: FC = () => {
         try {
             const { user } = await createUserWithEmailAndPassword(auth, data.email, data.password)
 
+            await updateProfile(user, {
+                displayName: data.fullName,
+            })
+
             await setDoc(doc(db, 'user', user.uid), {
-                fullName: data.fullName,
                 gender: data.gender,
                 phone: data.phone,
+                email: data.email,
                 country: data.country,
             })
 
@@ -89,8 +93,8 @@ export const Register: FC = () => {
 
                     <Form.Item name='gender' label='Пол' rules={[{ required: true, message: 'Укажите свой пол' }]}>
                         <Select placeholder='Выберите пол'>
-                            <Select.Option value='male'>Мужчина</Select.Option>
-                            <Select.Option value='female'>Женщина</Select.Option>
+                            <Select.Option value='мужчина'>Мужчина</Select.Option>
+                            <Select.Option value='женщина'>Женщина</Select.Option>
                         </Select>
                     </Form.Item>
 
@@ -113,9 +117,9 @@ export const Register: FC = () => {
 
                     <Form.Item name='country' label='Страна'>
                         <Select placeholder='Выберите страну'>
-                            <Select.Option value='ukraine'>Украина</Select.Option>
-                            <Select.Option value='germany'>Германия</Select.Option>
-                            <Select.Option value='poland'>Польша</Select.Option>
+                            <Select.Option value='украина'>Украина</Select.Option>
+                            <Select.Option value='германия'>Германия</Select.Option>
+                            <Select.Option value='польша'>Польша</Select.Option>
                         </Select>
                     </Form.Item>
 
