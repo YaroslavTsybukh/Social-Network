@@ -1,16 +1,24 @@
+import { useEffect, useState } from 'react'
 import { Avatar, Button, Card, Menu, Space, Layout, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { useEffect } from 'react'
 
 import { sidebarItems } from './sidebarItems.tsx'
 import { ROUTES } from '../../routes'
 
-import { signOut } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from '../../firebase.ts'
 
 export const LeftSidebar = () => {
+    const [displayName, setDisplayName] = useState<null | string>(null)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            user ? setDisplayName(user.displayName) : setDisplayName(null)
+        })
+    }, [])
+
     const handleExit = async () => {
         try {
             await signOut(auth)
@@ -28,7 +36,7 @@ export const LeftSidebar = () => {
     return (
         <Layout.Sider
             theme='light'
-            width={300}
+            width={320}
             style={{
                 maxHeight: 'calc(100vh - 88px)',
                 position: 'sticky',
@@ -47,9 +55,9 @@ export const LeftSidebar = () => {
                         size='large'
                         gap={4}
                     >
-                        User
+                        {displayName}
                     </Avatar>
-                    <Typography.Text italic>User name</Typography.Text>
+                    <Typography.Text italic>{displayName}</Typography.Text>
                     <Button size='small' style={{ margin: '0 16px', verticalAlign: 'middle' }} onClick={handleExit}>
                         Выйти
                     </Button>

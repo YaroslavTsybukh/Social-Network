@@ -3,7 +3,7 @@ import { Layout } from '../../layout/Layout.tsx'
 import { Button, Form, Input, Select } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 import { auth, db } from '../../firebase.ts'
 import { doc, setDoc } from 'firebase/firestore'
@@ -50,8 +50,11 @@ export const Register: FC = () => {
         try {
             const { user } = await createUserWithEmailAndPassword(auth, data.email, data.password)
 
+            await updateProfile(user, {
+                displayName: data.fullName,
+            })
+
             await setDoc(doc(db, 'user', user.uid), {
-                fullName: data.fullName,
                 gender: data.gender,
                 phone: data.phone,
                 email: data.email,
