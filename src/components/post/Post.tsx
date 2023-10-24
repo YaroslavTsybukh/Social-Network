@@ -1,11 +1,14 @@
 import { FC } from 'react'
-import moment from 'moment'
-import 'moment/dist/locale/ru'
-import { IPostField } from '../../core/shared/postField.interface.ts'
 import { Avatar, Card, Divider, Typography } from 'antd'
 import { LikeOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
+
 import Meta from 'antd/es/card/Meta'
 import { MediaContent } from './MediaContent.tsx'
+import { IPostField } from '../../core/shared/postField.interface.ts'
+
+import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs'
+dayjs.extend(relativeTime)
 
 interface IProps {
     postInfo: IPostField
@@ -46,7 +49,7 @@ export const Post: FC<IProps> = ({ postInfo }) => {
                     description={
                         timestamp && (
                             <Typography.Text type='secondary'>
-                                {moment.unix(timestamp.seconds).fromNow()}
+                                {dayjs.unix(timestamp.seconds).fromNow()}
                             </Typography.Text>
                         )
                     }
