@@ -1,10 +1,7 @@
 import { FC, useState } from 'react'
 import { Space } from 'antd'
-import dayjs from 'dayjs'
-import 'dayjs/locale/ru'
 import { UserProfileFilledFields } from './UserProfileFilledFields.tsx'
 import { infoCategories } from './dataForProfileFields.tsx'
-dayjs.locale('ru')
 
 import { DocumentData } from 'firebase/firestore'
 import { PlusCircleTwoTone } from '@ant-design/icons'

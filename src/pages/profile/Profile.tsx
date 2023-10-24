@@ -1,14 +1,10 @@
 import { FC, useState } from 'react'
-import { Layout } from '../../layout/Layout.tsx'
 import { Button, Card, Divider, Image, Input, Space, Tabs } from 'antd'
 import { EditOutlined, MessageOutlined, UserAddOutlined } from '@ant-design/icons'
-
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { useParams } from 'react-router-dom'
-import { AddPost, FriendsGrid, Posts, ProfileInfoWrapper } from '../../components'
 
-dayjs.extend(customParseFormat)
+import { Layout } from '../../layout/Layout.tsx'
+import { AddPost, FriendsGrid, Posts, ProfileInfoWrapper } from '../../components'
 
 export const Profile: FC = () => {
     const params = useParams()

@@ -1,10 +1,7 @@
 import { FC, useState } from 'react'
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { Button, Empty } from 'antd'
-import { ModalWithForm } from './ModalWithForm.tsx'
 
-dayjs.extend(customParseFormat)
+import { ModalWithForm } from './ModalWithForm.tsx'
 
 export const EmptyWithModal: FC<{ formName: string }> = ({ formName }) => {
     const [isOpen, setOpen] = useState<boolean>(false)
