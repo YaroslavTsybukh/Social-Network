@@ -1,6 +1,8 @@
 import { Layout } from '../../layout/Layout.tsx'
 import { useNavigate } from 'react-router-dom'
 import { ChatList } from 'react-chat-elements'
+import { Input } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 
 export const Messages = () => {
     const navigate = useNavigate()
@@ -10,6 +12,7 @@ export const Messages = () => {
 
     return (
         <Layout>
+            <Input placeholder='default size' style={{ marginBottom: 20 }} prefix={<UserOutlined />} />
             <ChatList
                 lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
                 onClick={handleClick}
