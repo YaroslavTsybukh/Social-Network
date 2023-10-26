@@ -14,7 +14,7 @@ export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            const unsubscribe = onSnapshot(doc(db, 'user', user!.uid), (doc) => {
+            const unsubscribe = onSnapshot(doc(db, 'users', user!.uid), (doc) => {
                 if (doc.exists()) {
                     setData(doc.data())
                 } else {
