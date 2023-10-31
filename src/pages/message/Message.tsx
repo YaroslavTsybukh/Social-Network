@@ -1,12 +1,41 @@
+import { useEffect, useRef } from 'react'
+import { MessageList } from 'react-chat-elements'
+import { Button, Form, Input, Space } from 'antd'
+
 import { Layout } from '../../layout/Layout.tsx'
-import { Button, Input, MessageList } from 'react-chat-elements'
-import { useRef } from 'react'
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore'
+import { db } from '../../firebase.ts'
+import { useAuth } from '../../core/hooks/useAuth.ts'
+import { Simulate } from 'react-dom/test-utils'
+import error = Simulate.error
+
 export const Message = () => {
     const ref = useRef(null)
+    const currentUser = useAuth()
 
+    useEffect(() => {
+        if (currentUser) {
+            const unsub = onSnapshot(
+                doc(db, 'userChats', currentUser.uid),
+                (snapshot) => {
+                    console.log(snapshot.data())
+                },
+                (error) => {
+                    console.log(error.message)
+                },
+            )
+
+            return () => unsub()
+        }
+    }, [currentUser])
+
+    const onFinish = async (data: { message: string }) => {
+        // await updateDoc(doc(db, 'chats'))
+        console.log(data)
+    }
     return (
         <Layout>
-            <div>
+            <section>
                 <MessageList
                     className='message-list'
                     lockable={true}
@@ -79,14 +108,17 @@ export const Message = () => {
                         },
                     ]}
                 />
-                <Input
-                    placeholder='Type here...'
-                    multiline={false}
-                    maxHeight={100}
-                    rightButtons={<Button text={'Send'} onClick={() => alert('Sending...')} title='Send' />}
-                    autofocus={true}
-                />
-            </div>
+                <Form name='messages' onFinish={onFinish}>
+                    <Form.Item name='message' rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Space.Compact style={{ width: '100%' }}>
+                            <Input placeholder='Введите ваше сообщение...' />
+                            <Button type='primary' htmlType='submit'>
+                                Отправить
+                            </Button>
+                        </Space.Compact>
+                    </Form.Item>
+                </Form>
+            </section>
         </Layout>
     )
 }
