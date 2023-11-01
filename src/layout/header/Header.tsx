@@ -9,7 +9,7 @@ export const Header = () => {
     const [current, setCurrent] = useState('home')
     const navigate = useNavigate()
     const auth = true
-    const onSearch = (value: string) => navigate(`/search?q=${encodeURIComponent(value)}`)
+    const onSearch = (value: string) => navigate(`${ROUTES.SEARCH}?q=${encodeURIComponent(value)}`)
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e)
         setCurrent(e.key)
