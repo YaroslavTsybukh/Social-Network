@@ -45,9 +45,9 @@ export const ModalWithForm: FC<{ formName: string; setCloseModal: () => void; is
                     date: new Date(dayjs(dateString, 'DD/MM/YYYY').format('YYYY-MM-DD')),
                 }
 
-                await setDoc(doc(db, 'user', user!.uid), transformData, { merge: true })
+                await setDoc(doc(db, 'users', user!.uid), transformData, { merge: true })
             } else {
-                await setDoc(doc(db, 'user', user!.uid), data, { merge: true })
+                await setDoc(doc(db, 'users', user!.uid), data, { merge: true })
             }
         })
 

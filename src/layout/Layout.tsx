@@ -2,7 +2,7 @@ import React from 'react'
 import { Header, WithoutSidebarsLayout, DefaultLayout, WithLeftSidebarLayout } from './index.ts'
 
 import { Layout as LayoutAnt } from 'antd'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 interface IProps {
     children: React.ReactNode
@@ -10,6 +10,7 @@ interface IProps {
 
 export const Layout: React.FC<IProps> = ({ children }) => {
     const { pathname } = useLocation()
+    const params = useParams()
 
     return (
         <LayoutAnt style={{ minHeight: '100vh' }}>
@@ -17,7 +18,7 @@ export const Layout: React.FC<IProps> = ({ children }) => {
 
             {pathname == '/' || pathname == '/messages' ? (
                 <DefaultLayout childrenInfo={children} />
-            ) : pathname == '/friends' || pathname == '/message/1' ? (
+            ) : pathname == '/friends' || pathname == `/message/${params.messageId}` ? (
                 <WithLeftSidebarLayout childrenInfo={children} />
             ) : (
                 <WithoutSidebarsLayout childrenInfo={children} />

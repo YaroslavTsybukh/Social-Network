@@ -30,7 +30,7 @@ export const AddPost = () => {
         }
 
         onAuthStateChanged(auth, async (user) => {
-            await addDoc(collection(db, `user/${user?.uid}/posts`), transformData)
+            await addDoc(collection(db, `users/${user?.uid}/posts`), transformData)
         })
 
         setUrlList([])

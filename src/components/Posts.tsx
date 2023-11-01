@@ -12,7 +12,7 @@ export const Posts = () => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            const q = query(collection(db, `user/${user?.uid}/posts`), orderBy('timestamp', 'desc'))
+            const q = query(collection(db, `users/${user?.uid}/posts`), orderBy('timestamp', 'desc'))
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 setPosts(
                     querySnapshot.docs.map((data) => ({
