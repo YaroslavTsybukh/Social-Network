@@ -9,7 +9,6 @@ export interface IUserProfileField {
     school: string
     nativeCity: string
     newCity: string
-    phoneNumber: string
     email: string
     webSite: string
     profile: string

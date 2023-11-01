@@ -60,7 +60,7 @@ export const dwellingInfo = [
 export const basicInfo = [
     {
         label: 'Мобильный',
-        name: 'phoneNumber',
+        name: 'phone',
         type: 'tel',
     },
     {

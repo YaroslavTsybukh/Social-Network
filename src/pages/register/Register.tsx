@@ -54,12 +54,16 @@ export const Register: FC = () => {
                 displayName: data.fullName,
             })
 
-            await setDoc(doc(db, 'user', user.uid), {
+            await setDoc(doc(db, 'users', user.uid), {
+                displayName: data.fullName,
                 gender: data.gender,
                 phone: data.phone,
                 email: data.email,
                 country: data.country,
+                uid: user.uid,
             })
+
+            await setDoc(doc(db, 'userChats', user.uid), {})
 
             navigate(ROUTES.LOGIN, { replace: true })
         } catch (error) {
