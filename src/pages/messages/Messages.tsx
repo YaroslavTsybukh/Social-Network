@@ -19,15 +19,7 @@ import { useDebounce } from '../../core/hooks/useDebounce.ts'
 import { Layout } from '../../layout/Layout.tsx'
 import { db } from '../../firebase.ts'
 import { useAuth } from '../../core/hooks/useAuth.ts'
-
-interface ISearchUser {
-    country: string
-    displayName: string
-    email: string
-    gender: string
-    phone: string
-    uid: string
-}
+import { ISearchUser } from '../../core/shared/searchUser.interface.ts'
 
 interface DataType {
     key: Key
