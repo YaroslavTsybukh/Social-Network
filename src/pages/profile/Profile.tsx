@@ -16,7 +16,7 @@ export const Profile: FC = () => {
         <Layout>
             <Card style={{ maxWidth: 900, width: '100%', margin: '0 auto' }}>
                 <Space style={{ justifyContent: 'space-between', width: '100%' }}>
-                    {params.friendId ? (
+                    {params.uid ? (
                         <>
                             <Card.Meta
                                 avatar={

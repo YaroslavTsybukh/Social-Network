@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Button, Card, Spin } from 'antd'
+import { Avatar, Button, Card, Empty, Spin } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 
 import { Layout } from '../../layout/Layout.tsx'
@@ -10,6 +10,7 @@ import { ISearchUser } from '../../core/shared/searchUser.interface.ts'
 import { db } from '../../firebase.ts'
 
 export const AllUsers = () => {
+    const [process, setProcess] = useState<string>('loading')
     const [searchParams] = useSearchParams()
     const [searchUsers, setSearchUsers] = useState<ISearchUser[] | null>(null)
 
@@ -23,6 +24,7 @@ export const AllUsers = () => {
             })
 
             setSearchUsers(users)
+            setProcess('confirmed')
         })
 
         return () => unsub()
@@ -32,13 +34,15 @@ export const AllUsers = () => {
         <Layout>
             <section>
                 <Card title='Люди' style={{ width: 700, margin: '0 auto' }} bodyStyle={{ paddingTop: 0 }}>
-                    {searchUsers ? (
+                    {process == 'loading' && <Spin size='large' />}
+                    {process == 'confirmed' &&
+                        searchUsers &&
+                        searchUsers.length > 0 &&
                         searchUsers.map((user) => (
                             <Card
                                 key={user.uid}
                                 type='inner'
-                                title={user.displayName}
-                                hoverable={true}
+                                title={<Link to={`/user/${user.uid}`}>{user.displayName}</Link>}
                                 style={{ marginTop: 30 }}
                                 extra={
                                     <Button type='primary' icon={<PlusOutlined />}>
@@ -51,9 +55,9 @@ export const AllUsers = () => {
                                     description={user.country}
                                 />
                             </Card>
-                        ))
-                    ) : (
-                        <Spin size='large' />
+                        ))}
+                    {process == 'confirmed ' && searchUsers && searchUsers.length == 0 && (
+                        <Empty style={{ marginTop: 30 }} description='Такого пользователя нет :(' />
                     )}
                 </Card>
             </section>

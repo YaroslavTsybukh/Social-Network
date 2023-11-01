@@ -7,7 +7,7 @@ export const ROUTES = {
     MESSAGES: '/messages',
     MESSAGE: '/message',
     FRIENDS: '/friends',
-    FRIEND: '/friend',
+    USER: '/user',
     PROFILE: '/profile',
     NOTFOUND: '*',
 }

@@ -8,7 +8,7 @@ export const FriendsGrid = () => {
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 26 }} style={{ marginBottom: 30 }}>
                 <Col className='gutter-row' span={6}>
                     <Badge.Ribbon text='Online' color='green'>
-                        <Link to={`${ROUTES.FRIEND}/1`}>
+                        <Link to={`${ROUTES.USER}/1`}>
                             <Card
                                 hoverable
                                 cover={

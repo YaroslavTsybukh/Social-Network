@@ -15,7 +15,7 @@ const App = () => {
                 <Route element={<PrivateRoute />}>
                     <Route path={ROUTES.HOME} element={<Home />} />
                     <Route path={ROUTES.SEARCH} element={<AllUsers />} />
-                    {[ROUTES.PROFILE, `${ROUTES.FRIEND}/:friendId`].map((path, i) => (
+                    {[ROUTES.PROFILE, `${ROUTES.USER}/:uid`].map((path, i) => (
                         <Route key={i} path={path} element={<Profile />} />
                     ))}
                     <Route path={ROUTES.MESSAGES} element={<Messages />} />
