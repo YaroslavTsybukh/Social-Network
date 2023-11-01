@@ -2,12 +2,13 @@ import { Layout } from '../../layout/Layout.tsx'
 import { Button, Card } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useSearchParams } from 'react-router-dom'
+import { useAuth } from '../../core/hooks/useAuth.ts'
 
 export const AllUsers = () => {
     const [searchParams] = useSearchParams()
-
-    console.log(searchParams.get('q'))
-
+    const currentUser = useAuth()
+    // console.log(searchParams.get('q'))
+    console.log(currentUser)
     return (
         <Layout>
             <section>
