@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { TrademarkCircleTwoTone } from '@ant-design/icons'
 import { Menu, Layout, Input, MenuProps } from 'antd'
 import { menuItems } from './menuItems.tsx'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 
 export const Header = () => {
     const [current, setCurrent] = useState('home')
-    const auth = false
-    const onSearch = (value: string) => console.log(value)
+    const navigate = useNavigate()
+    const auth = true
+    const onSearch = (value: string) => navigate(`/search?q=${encodeURIComponent(value)}`)
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e)
         setCurrent(e.key)
@@ -43,7 +44,7 @@ export const Header = () => {
                         />
                     </nav>
                     <Input.Search
-                        placeholder='input search text'
+                        placeholder='Поиск друзей'
                         onSearch={onSearch}
                         enterButton
                         size='middle'
