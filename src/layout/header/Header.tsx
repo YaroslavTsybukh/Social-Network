@@ -1,15 +1,20 @@
 import { useState } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { TrademarkCircleTwoTone } from '@ant-design/icons'
 import { Menu, Layout, Input, MenuProps } from 'antd'
+
 import { menuItems } from './menuItems.tsx'
-import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
+import { useAuth } from '../../core/hooks/useAuth.ts'
 
 export const Header = () => {
     const [current, setCurrent] = useState('home')
     const navigate = useNavigate()
-    const auth = true
-    const onSearch = (value: string) => navigate(`${ROUTES.SEARCH}?q=${encodeURIComponent(value)}`)
+    const { pathname } = useLocation()
+    const currentUser = useAuth()
+
+    const onSearch = async (value: string) => navigate(`${ROUTES.SEARCH}?q=${encodeURIComponent(value)}`)
+
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e)
         setCurrent(e.key)
@@ -32,7 +37,7 @@ export const Header = () => {
                 <TrademarkCircleTwoTone style={{ fontSize: '45px' }} />
             </Link>
 
-            {auth ? (
+            {currentUser && pathname !== '/login' && pathname !== '/register' ? (
                 <>
                     <nav>
                         <Menu
@@ -44,7 +49,7 @@ export const Header = () => {
                         />
                     </nav>
                     <Input.Search
-                        placeholder='Поиск друзей'
+                        placeholder='Поиск пользователей'
                         onSearch={onSearch}
                         enterButton
                         size='middle'

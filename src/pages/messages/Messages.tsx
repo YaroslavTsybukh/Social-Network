@@ -19,7 +19,7 @@ import { useDebounce } from '../../core/hooks/useDebounce.ts'
 import { Layout } from '../../layout/Layout.tsx'
 import { db } from '../../firebase.ts'
 import { useAuth } from '../../core/hooks/useAuth.ts'
-import { ISearchUser } from '../../core/shared/searchUser.interface.ts'
+import { IUser } from '../../core/shared/searchUser.interface.ts'
 
 interface DataType {
     key: Key
@@ -45,10 +45,12 @@ const data: DataType[] = [
     },
 ]
 
+// TODO: work on code optimization and remove 4 useEffects
+
 export const Messages: FC = () => {
     const [search, setSearch] = useState<string>('')
     const [searchUser, setSearchUser] = useState<DocumentData | null>(null)
-    const [users, setUsers] = useState<ISearchUser[] | null>(null)
+    const [users, setUsers] = useState<IUser[] | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const navigate = useNavigate()
@@ -65,9 +67,9 @@ export const Messages: FC = () => {
 
     const getUsers = async () => {
         const querySnapshot = await getDocs(collection(db, 'users'))
-        const usersArray: ISearchUser[] = []
+        const usersArray: IUser[] = []
         querySnapshot.forEach((doc) => {
-            usersArray.push(doc.data() as ISearchUser)
+            usersArray.push(doc.data() as IUser)
         })
         setUsers(usersArray)
     }

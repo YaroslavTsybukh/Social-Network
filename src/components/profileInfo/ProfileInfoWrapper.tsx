@@ -9,7 +9,7 @@ import { db } from '../../firebase.ts'
 import { useAuth } from '../../core/hooks/useAuth.ts'
 
 export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
-    const [userData, setData] = useState<DocumentData | null>(null)
+    const [userData, setUserData] = useState<DocumentData | null>(null)
     const [process, setProcess] = useState<string>('loading')
     const currentUser = useAuth()
 
@@ -17,9 +17,9 @@ export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
         if (currentUser) {
             const unsub = onSnapshot(doc(db, 'users', currentUser.uid), (doc) => {
                 if (doc.exists()) {
-                    setData(doc.data())
+                    setUserData(doc.data())
                 } else {
-                    setData(null)
+                    setUserData(null)
                 }
 
                 setProcess('confirmed')
@@ -27,7 +27,7 @@ export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
 
             return () => unsub()
         }
-    }, [])
+    }, [currentUser])
 
     if (process == 'loading') {
         return <Spin />
