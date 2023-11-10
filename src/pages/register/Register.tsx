@@ -60,7 +60,12 @@ export const Register: FC = () => {
                 phone: data.phone,
                 email: data.email,
                 country: data.country,
+                isFriend: false,
                 uid: user.uid,
+            })
+
+            await setDoc(doc(db, 'userFriends', user.uid), {
+                friends: [],
             })
 
             await setDoc(doc(db, 'userChats', user.uid), {})

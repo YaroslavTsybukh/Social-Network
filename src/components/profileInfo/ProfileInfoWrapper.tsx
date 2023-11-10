@@ -1,32 +1,33 @@
 import { FC, useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore'
-import { onAuthStateChanged } from 'firebase/auth'
 
 import { EmptyWithModal } from './EmptyWithModal.tsx'
 import { ProfileInfo } from './ProfileInfo.tsx'
 
-import { db, auth } from '../../firebase.ts'
+import { db } from '../../firebase.ts'
+import { useAuth } from '../../core/hooks/useAuth.ts'
 
 export const ProfileInfoWrapper: FC<{ formName: string }> = ({ formName }) => {
-    const [userData, setData] = useState<DocumentData | null>(null)
+    const [userData, setUserData] = useState<DocumentData | null>(null)
     const [process, setProcess] = useState<string>('loading')
+    const currentUser = useAuth()
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            const unsubscribe = onSnapshot(doc(db, 'users', user!.uid), (doc) => {
+        if (currentUser) {
+            const unsub = onSnapshot(doc(db, 'users', currentUser.uid), (doc) => {
                 if (doc.exists()) {
-                    setData(doc.data())
+                    setUserData(doc.data())
                 } else {
-                    setData(null)
+                    setUserData(null)
                 }
 
                 setProcess('confirmed')
             })
 
-            return () => unsubscribe()
-        })
-    }, [])
+            return () => unsub()
+        }
+    }, [currentUser])
 
     if (process == 'loading') {
         return <Spin />

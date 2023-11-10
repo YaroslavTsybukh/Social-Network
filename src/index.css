@@ -29,6 +29,7 @@ img[alt='User Avatar'] + .ant-image-mask {
   float: right;
 }
 
+/*Swiper*/
 .swiper {
   width: 240px;
   height: 320px;
