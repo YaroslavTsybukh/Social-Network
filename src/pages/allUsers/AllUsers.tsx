@@ -6,6 +6,7 @@ import { collection, doc, onSnapshot, query, updateDoc, arrayUnion, where, Docum
 
 import { Layout } from '../../layout/Layout.tsx'
 import { IUser } from '../../core/shared/searchUser.interface.ts'
+import { ROUTES } from '../../routes'
 
 import { db, auth } from '../../firebase.ts'
 
@@ -89,7 +90,7 @@ export const AllUsers = () => {
                             <Card
                                 key={user.uid}
                                 type='inner'
-                                title={<Link to={`/user/${user.uid}`}>{user.displayName}</Link>}
+                                title={<Link to={`${ROUTES.USER}/${user.uid}`}>{user.displayName}</Link>}
                                 style={{ marginTop: 30 }}
                                 extra={
                                     user.isFriend ? (

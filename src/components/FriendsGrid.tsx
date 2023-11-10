@@ -29,11 +29,11 @@ export const FriendsGrid = () => {
     return (
         <div>
             {friends && friends.length > 0 && (
-                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 26 }} style={{ marginBottom: 30 }}>
-                    {friends.map((friend) => (
-                        <Col className='gutter-row' span={6}>
+                <Row gutter={[20, 20]}>
+                    {friends.map((friend, i) => (
+                        <Col key={i} className='gutter-row' span={6}>
                             <Badge.Ribbon text='Online' color='green'>
-                                <Link to={`${ROUTES.USER}/1`}>
+                                <Link to={`${ROUTES.USER}/${friend.uid}`}>
                                     <Card
                                         hoverable
                                         cover={
