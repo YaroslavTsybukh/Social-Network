@@ -1,8 +1,6 @@
-import { useState, useEffect, FC, Key } from 'react'
+import { useState, useEffect, FC, Key, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChatList, IChatItemProps } from 'react-chat-elements'
-import { Button, Input, Modal, Space, Table } from 'antd'
-import { PlusOutlined, UserOutlined } from '@ant-design/icons'
 import {
     collection,
     query,
@@ -17,53 +15,30 @@ import {
 
 import { useDebounce } from '../../core/hooks/useDebounce.ts'
 import { Layout } from '../../layout/Layout.tsx'
-import { db } from '../../firebase.ts'
 import { useAuth } from '../../core/hooks/useAuth.ts'
 import { IUser } from '../../core/shared/searchUser.interface.ts'
+import { SearchChats } from '../../components'
 
-interface DataType {
-    key: Key
-    name: string
-}
-
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-    },
-    {
-        key: '4',
-        name: 'Yaroslav Tsybukh',
-    },
-]
-
+import { db } from '../../firebase.ts'
 // TODO: work on code optimization and remove 4 useEffects
 
 export const Messages: FC = () => {
-    const [search, setSearch] = useState<string>('')
+    // const [search, setSearch] = useState<string>('')
     const [searchUser, setSearchUser] = useState<DocumentData | null>(null)
     const [users, setUsers] = useState<IUser[] | null>(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    // const [isModalOpen, setIsModalOpen] = useState(false)
 
     const navigate = useNavigate()
-    const debouncedSearch = useDebounce(search)
+    // const debouncedSearch = useDebounce(search)
     const currentUser = useAuth()
 
     useEffect(() => {
         getUsers()
     }, [])
 
-    useEffect(() => {
-        searchUserChat()
-    }, [debouncedSearch])
+    // useEffect(() => {
+    //     searchUserChat()
+    // }, [debouncedSearch])
 
     const getUsers = async () => {
         const querySnapshot = await getDocs(collection(db, 'users'))
@@ -74,18 +49,18 @@ export const Messages: FC = () => {
         setUsers(usersArray)
     }
 
-    const searchUserChat = async () => {
-        const q = query(collection(db, 'users'), where('displayName', '==', debouncedSearch))
-        const querySnapshot = await getDocs(q)
-
-        if (querySnapshot.size > 0) {
-            querySnapshot.forEach((snapShot) => {
-                setSearchUser(snapShot.data())
-            })
-        } else {
-            setSearchUser(null)
-        }
-    }
+    // const searchUserChat = async () => {
+    //     const q = query(collection(db, 'users'), where('displayName', '==', debouncedSearch))
+    //     const querySnapshot = await getDocs(q)
+    //
+    //     if (querySnapshot.size > 0) {
+    //         querySnapshot.forEach((snapShot) => {
+    //             setSearchUser(snapShot.data())
+    //         })
+    //     } else {
+    //         setSearchUser(null)
+    //     }
+    // }
 
     const handleClick = async (user: IChatItemProps) => {
         const { id, title } = user
@@ -114,69 +89,72 @@ export const Messages: FC = () => {
         }
     }
 
-    const showModal = () => {
-        setIsModalOpen(true)
-    }
+    // const showModal = () => {
+    //     setIsModalOpen(true)
+    // }
+    //
+    // const handleOk = () => {
+    //     setIsModalOpen(false)
+    // }
+    //
+    // const handleCancel = () => {
+    //     setIsModalOpen(false)
+    // }
+    //
+    // const handleSearch = (value: string) => {
+    //     console.log(value)
+    // }
 
-    const handleOk = () => {
-        setIsModalOpen(false)
-    }
-
-    const handleCancel = () => {
-        setIsModalOpen(false)
-    }
-
-    const handleSearch = (value: string) => {
-        console.log(value)
-    }
-
-    const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-        },
-    }
-
+    // const rowSelection = {
+    //     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+    //         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+    //     },
+    // }
+    const handleSearchUser = useCallback((value: DocumentData | null) => {
+        setSearchUser(value)
+    }, [])
     return (
         <Layout>
-            <section>
-                <Space.Compact style={{ width: '100%' }}>
-                    <Input
-                        placeholder='default size'
-                        style={{ marginBottom: 20 }}
-                        prefix={<UserOutlined />}
-                        allowClear={true}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                    <Button type='primary' icon={<PlusOutlined />} onClick={showModal}>
-                        Добавить чат
-                    </Button>
-                    <Modal
-                        title='Мои друзья'
-                        open={isModalOpen}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                        cancelText='Отмена'
-                        okText='Создать чат'
-                    >
-                        <Input.Search placeholder='Поиск...' onSearch={handleSearch} />
-                        <Table
-                            rowSelection={{
-                                type: 'radio',
-                                ...rowSelection,
-                            }}
-                            showHeader={false}
-                            columns={[
-                                {
-                                    title: 'Имя',
-                                    dataIndex: 'name',
-                                },
-                            ]}
-                            dataSource={data}
-                            pagination={{ pageSize: 5 }}
-                        />
-                    </Modal>
-                </Space.Compact>
-            </section>
+            <SearchChats setSearchUser={handleSearchUser} />
+            {/*<section>*/}
+            {/*    <Space.Compact style={{ width: '100%' }}>*/}
+            {/*        <Input*/}
+            {/*            placeholder='default size'*/}
+            {/*            style={{ marginBottom: 20 }}*/}
+            {/*            prefix={<UserOutlined />}*/}
+            {/*            allowClear={true}*/}
+            {/*            onChange={(e) => setSearch(e.target.value)}*/}
+            {/*        />*/}
+            {/*        <Button type='primary' icon={<PlusOutlined />} onClick={showModal}>*/}
+            {/*            Добавить чат*/}
+            {/*        </Button>*/}
+            {/*        <Modal*/}
+            {/*            title='Мои друзья'*/}
+            {/*            open={isModalOpen}*/}
+            {/*            onOk={handleOk}*/}
+            {/*            onCancel={handleCancel}*/}
+            {/*            cancelText='Отмена'*/}
+            {/*            okText='Создать чат'*/}
+            {/*        >*/}
+            {/*            <Input.Search placeholder='Поиск...' onSearch={handleSearch} />*/}
+            {/*            <Table*/}
+            {/*                rowSelection={{*/}
+            {/*                    type: 'radio',*/}
+            {/*                    ...rowSelection,*/}
+            {/*                }}*/}
+            {/*                showHeader={false}*/}
+            {/*                columns={[*/}
+            {/*                    {*/}
+            {/*                        title: 'Имя',*/}
+            {/*                        dataIndex: 'name',*/}
+            {/*                    },*/}
+            {/*                ]}*/}
+            {/*                dataSource={data}*/}
+            {/*                pagination={{ pageSize: 5 }}*/}
+            {/*            />*/}
+            {/*        </Modal>*/}
+            {/*    </Space.Compact>*/}
+            {/*</section>*/}
             <section>
                 <ChatList
                     lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
