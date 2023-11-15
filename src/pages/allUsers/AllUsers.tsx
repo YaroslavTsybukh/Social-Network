@@ -5,7 +5,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { collection, doc, onSnapshot, query, updateDoc, arrayUnion, where, DocumentData } from 'firebase/firestore'
 
 import { Layout } from '../../layout/Layout.tsx'
-import { IUser } from '../../core/shared/searchUser.interface.ts'
+import { IUser } from '../../core/shared/user.interface.ts'
 import { ROUTES } from '../../routes'
 
 import { db, auth } from '../../firebase.ts'

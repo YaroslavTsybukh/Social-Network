@@ -1,5 +1,5 @@
 import { Avatar, Badge, Card, Layout, Space, Typography } from 'antd'
-import { AvatarWithStatus } from '../../components/ui/AvatarWithStatus.tsx'
+import { AvatarWithStatus } from '../../components'
 
 export const RightSidebar = () => {
     return (

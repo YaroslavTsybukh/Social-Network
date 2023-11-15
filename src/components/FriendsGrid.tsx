@@ -6,7 +6,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { ROUTES } from '../routes'
 import { db } from '../firebase.ts'
 import { useAuth } from '../core/hooks/useAuth.ts'
-import { IUser } from '../core/shared/searchUser.interface.ts'
+import { IUser } from '../core/shared/user.interface.ts'
 
 export const FriendsGrid = () => {
     const [friends, setFriends] = useState<IUser[] | null>(null)

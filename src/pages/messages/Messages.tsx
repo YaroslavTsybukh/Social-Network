@@ -1,8 +1,6 @@
-import { useState, useEffect, FC, Key } from 'react'
+import { useState, useEffect, FC, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChatList, IChatItemProps } from 'react-chat-elements'
-import { Button, Input, Modal, Space, Table } from 'antd'
-import { PlusOutlined, UserOutlined } from '@ant-design/icons'
 import {
     collection,
     query,
@@ -13,79 +11,46 @@ import {
     doc,
     serverTimestamp,
     setDoc,
+    Unsubscribe,
 } from 'firebase/firestore'
 
-import { useDebounce } from '../../core/hooks/useDebounce.ts'
-import { Layout } from '../../layout/Layout.tsx'
-import { db } from '../../firebase.ts'
 import { useAuth } from '../../core/hooks/useAuth.ts'
-import { IUser } from '../../core/shared/searchUser.interface.ts'
+import { useUserService } from '../../core/services/user.service.ts'
+import { Layout } from '../../layout/Layout.tsx'
+import { SearchChats } from '../../components'
+import { IUser } from '../../core/shared/user.interface.ts'
 
-interface DataType {
-    key: Key
-    name: string
-}
-
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-    },
-    {
-        key: '4',
-        name: 'Yaroslav Tsybukh',
-    },
-]
-
+import { db } from '../../firebase.ts'
+import { IDataFromServer } from '../../core/shared/ResponseForChats.interface.ts'
+import { Empty, Spin } from 'antd'
 // TODO: work on code optimization and remove 4 useEffects
 
 export const Messages: FC = () => {
-    const [search, setSearch] = useState<string>('')
-    const [searchUser, setSearchUser] = useState<DocumentData | null>(null)
+    const [searchUsers, setSearchUsers] = useState<IUser[] | null>(null)
     const [users, setUsers] = useState<IUser[] | null>(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const { getUsers } = useUserService()
 
     const navigate = useNavigate()
-    const debouncedSearch = useDebounce(search)
     const currentUser = useAuth()
 
     useEffect(() => {
+        let unsub: Unsubscribe
+
         getUsers()
-    }, [])
+            .then((res) => {
+                if (typeof res == 'object' && res) {
+                    const { unsub: unSub, data } = res as IDataFromServer
+                    setUsers(data)
 
-    useEffect(() => {
-        searchUserChat()
-    }, [debouncedSearch])
-
-    const getUsers = async () => {
-        const querySnapshot = await getDocs(collection(db, 'users'))
-        const usersArray: IUser[] = []
-        querySnapshot.forEach((doc) => {
-            usersArray.push(doc.data() as IUser)
-        })
-        setUsers(usersArray)
-    }
-
-    const searchUserChat = async () => {
-        const q = query(collection(db, 'users'), where('displayName', '==', debouncedSearch))
-        const querySnapshot = await getDocs(q)
-
-        if (querySnapshot.size > 0) {
-            querySnapshot.forEach((snapShot) => {
-                setSearchUser(snapShot.data())
+                    unsub = unSub
+                }
             })
-        } else {
-            setSearchUser(null)
+            .catch((res) => console.log(res))
+
+        return () => {
+            if (unsub) unsub()
         }
-    }
+    }, [getUsers])
 
     const handleClick = async (user: IChatItemProps) => {
         const { id, title } = user
@@ -114,104 +79,63 @@ export const Messages: FC = () => {
         }
     }
 
-    const showModal = () => {
-        setIsModalOpen(true)
-    }
+    const handleSearchUser = useCallback((value: IUser[] | [] | null) => {
+        setSearchUsers(value)
+    }, [])
 
-    const handleOk = () => {
-        setIsModalOpen(false)
-    }
-
-    const handleCancel = () => {
-        setIsModalOpen(false)
-    }
-
-    const handleSearch = (value: string) => {
-        console.log(value)
-    }
-
-    const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-        },
-    }
-
+    console.log(searchUsers)
+    console.log(users)
     return (
         <Layout>
+            <SearchChats setSearchUser={handleSearchUser} />
             <section>
-                <Space.Compact style={{ width: '100%' }}>
-                    <Input
-                        placeholder='default size'
-                        style={{ marginBottom: 20 }}
-                        prefix={<UserOutlined />}
-                        allowClear={true}
-                        onChange={(e) => setSearch(e.target.value)}
+                {!searchUsers && !users && (
+                    <div style={{ textAlign: 'center' }}>
+                        <Spin />
+                    </div>
+                )}
+
+                {!searchUsers && users && users.length > 0 ? (
+                    <ChatList
+                        lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
+                        onClick={handleClick}
+                        dataSource={users.map((user) => ({
+                            id: user.uid,
+                            avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
+                            alt: 'kursat_avatar',
+                            title: user.displayName,
+                            subtitle: "Why don't we go to the No Way Home movie this weekend ?",
+                            date: new Date(),
+                            unread: 4,
+                            showMute: true,
+                            muted: true,
+                        }))}
+                        id={1}
                     />
-                    <Button type='primary' icon={<PlusOutlined />} onClick={showModal}>
-                        Добавить чат
-                    </Button>
-                    <Modal
-                        title='Мои друзья'
-                        open={isModalOpen}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                        cancelText='Отмена'
-                        okText='Создать чат'
-                    >
-                        <Input.Search placeholder='Поиск...' onSearch={handleSearch} />
-                        <Table
-                            rowSelection={{
-                                type: 'radio',
-                                ...rowSelection,
-                            }}
-                            showHeader={false}
-                            columns={[
-                                {
-                                    title: 'Имя',
-                                    dataIndex: 'name',
-                                },
-                            ]}
-                            dataSource={data}
-                            pagination={{ pageSize: 5 }}
-                        />
-                    </Modal>
-                </Space.Compact>
-            </section>
-            <section>
-                <ChatList
-                    lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
-                    onClick={handleClick}
-                    dataSource={
-                        searchUser
-                            ? [
-                                  {
-                                      id: 1,
-                                      avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
-                                      alt: 'kursat_avatar',
-                                      title: searchUser?.displayName,
-                                      subtitle: "Why don't we go to the No Way Home movie this weekend ?",
-                                      date: new Date(),
-                                      unread: 4,
-                                      showMute: true,
-                                      muted: true,
-                                  },
-                              ]
-                            : !searchUser && users
-                            ? users.map((user) => ({
-                                  id: user?.uid,
-                                  avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
-                                  alt: 'kursat_avatar',
-                                  title: user?.displayName,
-                                  subtitle: "Why don't we go to the No Way Home movie this weekend ?",
-                                  date: new Date(),
-                                  unread: 4,
-                                  showMute: true,
-                                  muted: true,
-                              }))
-                            : []
-                    }
-                    id={1}
-                />
+                ) : !searchUsers && users && users.length == 0 ? (
+                    <Empty description='Чаты не найдены :(' />
+                ) : null}
+
+                {searchUsers && searchUsers.length > 0 ? (
+                    <ChatList
+                        lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
+                        onClick={handleClick}
+                        dataSource={searchUsers.map((searchUser) => ({
+                            id: searchUser.uid,
+                            avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
+                            alt: 'kursat_avatar',
+                            title: searchUser.displayName,
+                            subtitle: "Why don't we go to the No Way Home movie this weekend ?",
+                            date: new Date(),
+                            unread: 4,
+                            showMute: true,
+                            muted: true,
+                        }))}
+                        id={1}
+                    />
+                ) : searchUsers && searchUsers.length === 0 ? (
+                    <Empty description='Такого чата не существует' />
+                ) : null}
             </section>
         </Layout>
     )
