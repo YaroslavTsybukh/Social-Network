@@ -8,10 +8,7 @@ export const useUserService = () => {
             const unsub = onSnapshot(
                 query(collection(db, 'users')),
                 (doc) => {
-                    const newArr = doc.docs.map((doc, index) => ({
-                        key: index + 1,
-                        ...doc.data(),
-                    }))
+                    const newArr = doc.docs.map((doc) => ({ ...doc.data() }))
 
                     resolve({ data: newArr, unsub })
                 },
@@ -24,18 +21,21 @@ export const useUserService = () => {
 
     const getSearchedUsers = useCallback((search: string) => {
         return new Promise((resolve, reject) => {
-            const q = query(collection(db, 'users'), where('displayName', '==', search))
-            const unsub = onSnapshot(
-                q,
-                (doc) => {
-                    const newArr = doc.docs.map((doc, index) => ({ key: index + 1, ...doc.data() }))
-
-                    resolve({ data: newArr, unsub })
-                },
-                (error) => {
-                    reject(error)
-                },
-            )
+            if (!search) {
+                resolve(null)
+            } else {
+                const q = query(collection(db, 'users'), where('displayName', '==', search))
+                const unsub = onSnapshot(
+                    q,
+                    (doc) => {
+                        const newArr = doc.docs.map((doc) => ({ ...doc.data() }))
+                        resolve({ data: newArr, unsub })
+                    },
+                    (error) => {
+                        reject(error)
+                    },
+                )
+            }
         })
     }, [])
 

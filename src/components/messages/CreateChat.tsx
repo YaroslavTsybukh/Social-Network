@@ -1,33 +1,21 @@
-import { FC, Key, useCallback, useEffect, useState } from 'react'
-import { Button, Input, Modal, Table } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import { collection, DocumentData, getDocs, onSnapshot, query, where, Unsubscribe } from 'firebase/firestore'
+import { FC, useEffect, useState } from 'react'
+import { Input, Modal, Table } from 'antd'
 
-import { IUser } from '../../core/shared/searchUser.interface.ts'
+import { Unsubscribe } from 'firebase/firestore'
+
 import { useUserService } from '../../core/services/user.service.ts'
-
-import { db } from '../../firebase.ts'
-import { searchedUsers } from '../../core/utils/searchedUsers.ts'
-
-interface DataType extends IUser {
-    key: Key
-}
-
-interface IDataFromServer {
-    data: DataType[]
-    unsub: Unsubscribe
-}
+import { IDataFromServer } from '../../core/shared/ResponseForChats.interface.ts'
+import { IUser } from '../../core/shared/user.interface.ts'
 
 interface IProps {
     isModalOpen: boolean
     setIsModalOpen: (value: boolean) => void
 }
 
-//TODO: continue working on code optimization (creation of services)
-
 export const CreateChat: FC<IProps> = ({ isModalOpen, setIsModalOpen }) => {
     const [search, setSearch] = useState<string>('')
-    const [searchUser, setSearchUser] = useState<DataType[] | null>(null)
+    const [searchUser, setSearchUser] = useState<IUser[] | null>(null)
+
     const { getUsers, getSearchedUsers } = useUserService()
 
     useEffect(() => {
@@ -60,10 +48,7 @@ export const CreateChat: FC<IProps> = ({ isModalOpen, setIsModalOpen }) => {
         }
 
         return () => {
-            if (unsub) {
-                console.log('Unsub...')
-                unsub()
-            }
+            if (unsub) unsub()
         }
     }, [search, getUsers, getSearchedUsers])
 
@@ -76,7 +61,7 @@ export const CreateChat: FC<IProps> = ({ isModalOpen, setIsModalOpen }) => {
     }
 
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: IUser[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
         },
     }
@@ -107,6 +92,7 @@ export const CreateChat: FC<IProps> = ({ isModalOpen, setIsModalOpen }) => {
                     ]}
                     dataSource={searchUser}
                     pagination={{ pageSize: 5 }}
+                    rowKey={(record) => record.uid}
                 />
             )}
         </Modal>

@@ -1,37 +1,46 @@
 import { FC, useEffect, useState, memo } from 'react'
 import { Button, Input, Space } from 'antd'
 import { PlusOutlined, UserOutlined } from '@ant-design/icons'
-import { collection, DocumentData, getDocs, query, where } from 'firebase/firestore'
+import { Unsubscribe } from 'firebase/firestore'
 
 import { CreateChat } from './CreateChat.tsx'
 import { useDebounce } from '../../core/hooks/useDebounce.ts'
 
-import { db } from '../../firebase.ts'
+import { useUserService } from '../../core/services/user.service.ts'
+import { IDataFromServer } from '../../core/shared/ResponseForChats.interface.ts'
+import { IUser } from '../../core/shared/user.interface.ts'
 
 interface IProps {
-    setSearchUser: (value: DocumentData | null) => void
+    setSearchUser: (value: IUser[] | [] | null) => void
 }
 
 export const SearchChats: FC<IProps> = memo(({ setSearchUser }) => {
     const [search, setSearch] = useState<string>('')
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const debouncedSearch = useDebounce(search)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const { getSearchedUsers: getSearchedChats } = useUserService()
 
     useEffect(() => {
-        const searchUserChat = async () => {
-            const q = query(collection(db, 'users'), where('displayName', '==', debouncedSearch))
-            const querySnapshot = await getDocs(q)
-            if (querySnapshot.size > 0) {
-                querySnapshot.forEach((snapShot) => {
-                    setSearchUser(snapShot.data())
-                })
-            } else {
-                setSearchUser(null)
-            }
-        }
+        let unsub: Unsubscribe
 
-        searchUserChat()
-    }, [debouncedSearch, setSearchUser])
+        getSearchedChats(debouncedSearch)
+            .then((res) => {
+                if (typeof res == 'object' && res) {
+                    const { unsub: unSub, data } = res as IDataFromServer
+                    setSearchUser(data)
+                    unsub = unSub
+                } else if (res === null) {
+                    setSearchUser(null)
+                } else {
+                    console.log('Incorrect type...')
+                }
+            })
+            .catch((res) => console.log(res))
+
+        return () => {
+            if (unsub) unsub()
+        }
+    }, [debouncedSearch, setSearchUser, getSearchedChats])
 
     const showModal = () => {
         setIsModalOpen(true)
