@@ -6,41 +6,44 @@ import { Unsubscribe } from 'firebase/firestore'
 import { CreateChat } from './CreateChat.tsx'
 import { useDebounce } from '../../core/hooks/useDebounce.ts'
 
-import { useUserService } from '../../core/services/user.service.ts'
-import { IDataFromServer } from '../../core/shared/ResponseForChats.interface.ts'
-import { IUser } from '../../core/shared/user.interface.ts'
+import { IChatInfo, IUserChatsFromServer } from '../../core/shared/ResponseForChats.interface.ts'
+import { useChatService } from '../../core/services/chat.service.ts'
+import { auth } from '../../firebase.ts'
 
 interface IProps {
-    setSearchUser: (value: IUser[] | [] | null) => void
+    setSearchChats: (value: IChatInfo[] | [] | null) => void
 }
 
-export const SearchChats: FC<IProps> = memo(({ setSearchUser }) => {
+export const SearchChats: FC<IProps> = memo(({ setSearchChats }) => {
     const [search, setSearch] = useState<string>('')
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const debouncedSearch = useDebounce(search)
-    const { getSearchedUsers: getSearchedChats } = useUserService()
+    const { getUserChats: getSearchedChats } = useChatService()
 
     useEffect(() => {
+        if (auth.currentUser === null) return
+
         let unsub: Unsubscribe
 
-        getSearchedChats(debouncedSearch)
+        getSearchedChats(auth.currentUser)
             .then((res) => {
-                if (typeof res == 'object' && res) {
-                    const { unsub: unSub, data } = res as IDataFromServer
-                    setSearchUser(data)
-                    unsub = unSub
-                } else if (res === null) {
-                    setSearchUser(null)
+                const { unsub: unSub, data } = res as IUserChatsFromServer
+
+                if (debouncedSearch) {
+                    const userInfo = Object.values(data).filter((data) => data.userInfo.displayName === debouncedSearch)
+                    setSearchChats(userInfo)
                 } else {
-                    console.log('Incorrect type...')
+                    setSearchChats(null)
                 }
+
+                unsub = unSub
             })
             .catch((res) => console.log(res))
 
         return () => {
             if (unsub) unsub()
         }
-    }, [debouncedSearch, setSearchUser, getSearchedChats])
+    }, [debouncedSearch, setSearchChats, getSearchedChats])
 
     const showModal = () => {
         setIsModalOpen(true)

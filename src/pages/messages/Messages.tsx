@@ -1,34 +1,21 @@
 import { useState, useEffect, FC, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Empty, Spin } from 'antd'
 import { ChatList, IChatItemProps } from 'react-chat-elements'
-import {
-    collection,
-    query,
-    where,
-    getDocs,
-    DocumentData,
-    updateDoc,
-    doc,
-    serverTimestamp,
-    setDoc,
-    Unsubscribe,
-} from 'firebase/firestore'
+import { doc, setDoc, Unsubscribe } from 'firebase/firestore'
 
 import { useAuth } from '../../core/hooks/useAuth.ts'
-import { useUserService } from '../../core/services/user.service.ts'
-import { Layout } from '../../layout/Layout.tsx'
+import { useChatService } from '../../core/services/chat.service.ts'
+import { IChatInfo, IChatsInfo, IUserChatsFromServer } from '../../core/shared/ResponseForChats.interface.ts'
 import { SearchChats } from '../../components'
-import { IUser } from '../../core/shared/user.interface.ts'
+import { Layout } from '../../layout/Layout.tsx'
 
 import { db } from '../../firebase.ts'
-import { IDataFromServer } from '../../core/shared/ResponseForChats.interface.ts'
-import { Empty, Spin } from 'antd'
-// TODO: work on code optimization and remove 4 useEffects
 
 export const Messages: FC = () => {
-    const [searchUsers, setSearchUsers] = useState<IUser[] | null>(null)
-    const [users, setUsers] = useState<IUser[] | null>(null)
-    const { getUsers } = useUserService()
+    const [searchChats, setSearchChats] = useState<IChatInfo[] | [] | null>(null)
+    const [chats, setChats] = useState<IChatsInfo | null>(null)
+    const { getUserChats } = useChatService()
 
     const navigate = useNavigate()
     const currentUser = useAuth()
@@ -36,74 +23,54 @@ export const Messages: FC = () => {
     useEffect(() => {
         let unsub: Unsubscribe
 
-        getUsers()
-            .then((res) => {
-                if (typeof res == 'object' && res) {
-                    const { unsub: unSub, data } = res as IDataFromServer
-                    setUsers(data)
+        if (currentUser) {
+            getUserChats(currentUser).then((res) => {
+                const { unsub: unSub, data } = res as IUserChatsFromServer
+                setChats(data)
 
-                    unsub = unSub
-                }
+                unsub = unSub
             })
-            .catch((res) => console.log(res))
+        }
 
         return () => {
             if (unsub) unsub()
         }
-    }, [getUsers])
+    }, [currentUser, getUserChats])
 
     const handleClick = async (user: IChatItemProps) => {
-        const { id, title } = user
+        const { id } = user
         navigate(`/message/${id}`)
 
         if (currentUser) {
             const combinedId = currentUser.uid + id
 
             await setDoc(doc(db, 'chats', combinedId), { messages: [] })
-
-            await updateDoc(doc(db, 'userChats', currentUser.uid), {
-                [combinedId + '.userInfo']: {
-                    uid: id,
-                    displayName: title,
-                },
-                [combinedId + '.date']: serverTimestamp(),
-            })
-
-            await updateDoc(doc(db, 'userChats', String(id)), {
-                [combinedId + '.userInfo']: {
-                    uid: currentUser.uid,
-                    displayName: currentUser.displayName,
-                },
-                [combinedId + '.date']: serverTimestamp(),
-            })
         }
     }
 
-    const handleSearchUser = useCallback((value: IUser[] | [] | null) => {
-        setSearchUsers(value)
+    const handleSearchChats = useCallback((value: IChatInfo[] | [] | null) => {
+        setSearchChats(value)
     }, [])
 
-    console.log(searchUsers)
-    console.log(users)
     return (
         <Layout>
-            <SearchChats setSearchUser={handleSearchUser} />
+            <SearchChats setSearchChats={handleSearchChats} />
             <section>
-                {!searchUsers && !users && (
+                {!searchChats && !chats && (
                     <div style={{ textAlign: 'center' }}>
                         <Spin />
                     </div>
                 )}
 
-                {!searchUsers && users && users.length > 0 ? (
+                {!searchChats && chats && Object.entries(chats).length > 0 ? (
                     <ChatList
                         lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
                         onClick={handleClick}
-                        dataSource={users.map((user) => ({
-                            id: user.uid,
+                        dataSource={Object.entries(chats).map((chat) => ({
+                            id: chat[0],
                             avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
                             alt: 'kursat_avatar',
-                            title: user.displayName,
+                            title: chat[1].userInfo.displayName,
                             subtitle: "Why don't we go to the No Way Home movie this weekend ?",
                             date: new Date(),
                             unread: 4,
@@ -112,19 +79,19 @@ export const Messages: FC = () => {
                         }))}
                         id={1}
                     />
-                ) : !searchUsers && users && users.length == 0 ? (
+                ) : !searchChats && chats && Object.entries(chats).length == 0 ? (
                     <Empty description='Чаты не найдены :(' />
                 ) : null}
 
-                {searchUsers && searchUsers.length > 0 ? (
+                {searchChats && searchChats.length > 0 ? (
                     <ChatList
                         lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
                         onClick={handleClick}
-                        dataSource={searchUsers.map((searchUser) => ({
-                            id: searchUser.uid,
+                        dataSource={searchChats.map((searchChat) => ({
+                            id: searchChat.userInfo.uid,
                             avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
                             alt: 'kursat_avatar',
-                            title: searchUser.displayName,
+                            title: searchChat.userInfo.displayName,
                             subtitle: "Why don't we go to the No Way Home movie this weekend ?",
                             date: new Date(),
                             unread: 4,
@@ -133,7 +100,7 @@ export const Messages: FC = () => {
                         }))}
                         id={1}
                     />
-                ) : searchUsers && searchUsers.length === 0 ? (
+                ) : searchChats && searchChats.length === 0 ? (
                     <Empty description='Такого чата не существует' />
                 ) : null}
             </section>

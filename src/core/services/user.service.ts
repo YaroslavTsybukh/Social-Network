@@ -1,6 +1,8 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import { db } from '../../firebase.ts'
 import { useCallback } from 'react'
+import { collection, doc, onSnapshot, query, where } from 'firebase/firestore'
+import { User } from 'firebase/auth'
+
+import { db } from '../../firebase.ts'
 
 export const useUserService = () => {
     const getUsers = useCallback(() => {
@@ -39,5 +41,19 @@ export const useUserService = () => {
         })
     }, [])
 
-    return { getUsers, getSearchedUsers }
+    const getFriends = useCallback((currentUser: User) => {
+        return new Promise((resolve, reject) => {
+            const unsub = onSnapshot(
+                doc(db, 'userFriends', currentUser.uid),
+                (doc) => {
+                    resolve({ data: doc.data()?.friends, unsub })
+                },
+                (error) => {
+                    reject(error)
+                },
+            )
+        })
+    }, [])
+
+    return { getUsers, getSearchedUsers, getFriends }
 }

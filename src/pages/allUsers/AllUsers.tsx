@@ -16,6 +16,8 @@ export const AllUsers = () => {
     const [searchUsers, setSearchUsers] = useState<IUser[] | null>(null)
     const [currentUser, setCurrentUser] = useState<DocumentData | null>(null)
 
+    //TODO: refactor code with queries, create services
+
     useEffect(() => {
         if (auth.currentUser !== null) {
             const allMatchingUsers: IUser[] = []
