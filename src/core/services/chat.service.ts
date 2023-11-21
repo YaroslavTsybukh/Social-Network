@@ -28,26 +28,5 @@ export const useChatService = () => {
         })
     }, [])
 
-    // const getSearchedChats = useCallback((currentUser: User, search: string) => {
-    //     return new Promise((resolve, reject) => {
-    //         if (!search) {
-    //             resolve(null)
-    //         } else {
-    //             const unsub = onSnapshot(
-    //                 doc(db, 'userChats', currentUser.uid),
-    //                 (doc) => {
-    //                     // const necessaryObject = Object.values(doc.data()!).find(
-    //                     //     (obj) => obj.userInfo.displayName == search,
-    //                     // )
-    //                     resolve({ data: Object.values(doc.data()!), unsub })
-    //                 },
-    //                 (error) => {
-    //                     reject(error)
-    //                 },
-    //             )
-    //         }
-    //     })
-    // }, [])
-
     return { updateUserChat, getUserChats }
 }

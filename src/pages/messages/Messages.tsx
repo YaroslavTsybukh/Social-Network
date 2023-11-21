@@ -13,7 +13,7 @@ import { Layout } from '../../layout/Layout.tsx'
 import { db } from '../../firebase.ts'
 
 export const Messages: FC = () => {
-    const [searchChats, setSearchChats] = useState<IChatInfo[] | [] | null>(null)
+    const [searchChats, setSearchChats] = useState<[string, IChatInfo][] | [] | null>(null)
     const [chats, setChats] = useState<IChatsInfo | null>(null)
     const { getUserChats } = useChatService()
 
@@ -48,7 +48,7 @@ export const Messages: FC = () => {
         }
     }
 
-    const handleSearchChats = useCallback((value: IChatInfo[] | [] | null) => {
+    const handleSearchChats = useCallback((value: [string, IChatInfo][] | [] | null) => {
         setSearchChats(value)
     }, [])
 
@@ -88,10 +88,10 @@ export const Messages: FC = () => {
                         lazyLoadingImage='https://avatars.githubusercontent.com/u/80540635?v=4'
                         onClick={handleClick}
                         dataSource={searchChats.map((searchChat) => ({
-                            id: searchChat.userInfo.uid,
+                            id: searchChat[0],
                             avatar: 'https://avatars.githubusercontent.com/u/80540635?v=4',
                             alt: 'kursat_avatar',
-                            title: searchChat.userInfo.displayName,
+                            title: searchChat[1].userInfo.displayName,
                             subtitle: "Why don't we go to the No Way Home movie this weekend ?",
                             date: new Date(),
                             unread: 4,

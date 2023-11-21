@@ -11,7 +11,7 @@ import { useChatService } from '../../core/services/chat.service.ts'
 import { auth } from '../../firebase.ts'
 
 interface IProps {
-    setSearchChats: (value: IChatInfo[] | [] | null) => void
+    setSearchChats: (value: [string, IChatInfo][] | [] | null) => void
 }
 
 export const SearchChats: FC<IProps> = memo(({ setSearchChats }) => {
@@ -30,7 +30,10 @@ export const SearchChats: FC<IProps> = memo(({ setSearchChats }) => {
                 const { unsub: unSub, data } = res as IUserChatsFromServer
 
                 if (debouncedSearch) {
-                    const userInfo = Object.values(data).filter((data) => data.userInfo.displayName === debouncedSearch)
+                    const userInfo = Object.entries(data).filter(
+                        (data) => data[1].userInfo.displayName === debouncedSearch,
+                    )
+
                     setSearchChats(userInfo)
                 } else {
                     setSearchChats(null)
